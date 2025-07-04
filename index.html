@@ -1,105 +1,724 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veeran Vitality - Adventure Events</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        :root {
+            --primary-color: #28a745; /* Green for adventure/growth */
+            --secondary-color: #6c757d; /* Muted grey */
+            --dark-color: #212529;
+            --light-color: #f8f9fa;
+            --info-color: #17a2b8;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --card-bg: #ffffff;
+            --footer-bg: #343a40;
+            --footer-text: #adb5bd;
+            --hover-shadow: rgba(0, 0, 0, 0.25);
+        }
 
-  <head>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        /* Navbar Customization */
+        .navbar-custom {
+            background-color: var(--dark-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .navbar-custom .navbar-brand {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        .navbar-custom .nav-link {
+            color: var(--light-color);
+            font-weight: 500;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+        .navbar-custom .nav-link:hover {
+            color: var(--primary-color);
+        }
+        .navbar-custom .btn-outline-success {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .navbar-custom .btn-outline-success:hover {
+            background-color: var(--primary-color);
+            color: var(--dark-color);
+        }
 
-    <title>VeeranVitality</title>
+        /* Main Content Area */
+        main {
+            flex: 1; /* Allows main content to grow and push footer down */
+            padding-top: 0; /* Removed offset for fixed navbar to remove space */
+        }
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        /* Page Sections */
+        .page-section {
+            display: none; /* Hidden by default, shown by JS */
+            padding: 40px 0;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Add padding to all page sections except the home page hero section */
+        .page-section:not(#home-page) {
+            padding-top: 80px !important; /* Adjust as needed to clear the fixed navbar */
+        }
 
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-villa-agency.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-<!--
+        /* Home Page Hero Section */
+        .hero-section {
+            /*background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover; */
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background-size: cover; /* Ensure the image covers the entire section */
+            background-position: center; /* Center the background image */
+        }
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-section .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hero-section .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
 
-TemplateMo 591 villa agency
+        /* Section Styling */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 40px;
+            text-align: center;
+        }
 
-https://templatemo.com/tm-591-villa-agency
+        /* Auth Pages (Login/Signup) */
+        .auth-card {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background-color: var(--card-bg);
+            border: none;
+        }
+        .auth-card .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+        }
+        .auth-card .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+        }
+        .auth-card .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        .auth-card .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
 
--->
-  </head>
+        /* Events Page Cards */
+        .event-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--card-bg);
+            border: none;
+        }
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--hover-shadow);
+        }
+        .event-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+        .event-card .card-body {
+            padding: 20px;
+        }
+        .event-card .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        .event-card .card-text {
+            font-size: 0.95rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        .event-card .btn-info {
+            background-color: var(--info-color);
+            border-color: var(--info-color);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .event-card .btn-info:hover {
+            background-color: #138496;
+            transform: scale(1.05);
+        }
 
+        /* Info Cards (Why Veeran Vitality?) */
+        .scrollable-cards-container {
+            overflow-x: auto;
+            padding-bottom: 15px; /* Space for scrollbar */
+        }
+
+        /* Custom scrollbar styles (Webkit browsers) */
+        .scrollable-cards-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .scrollable-cards-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .scrollable-cards-container::-webkit-scrollbar-track {
+            background-color: #e9ecef; /* Light grey track */
+        }
+
+        .scrollable-cards-row {
+            display: flex;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            gap: 24px; /* Space between cards */
+            padding-bottom: 5px; /* To prevent content from being cut by scrollbar */
+        }
+
+        .info-card-wrapper {
+            flex: 0 0 auto; /* Prevent shrinking and growing, maintain content width */
+            width: 300px; /* Fixed width for each card in scrollable view */
+            max-width: 100%; /* Ensure it doesn't exceed parent width on small screens */
+        }
+
+        .info-card {
+            position: relative;
+            overflow: hidden; /* Crucial for pseudo-element to stay within bounds */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--card-bg);
+            border: none; /* Ensure no default border interferes */
+            height: 100%; /* Ensure cards are same height if content varies */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--hover-shadow);
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0; /* Start from top */
+            left: 0;
+            width: 100%;
+            height: 5px; /* Thickness of the border */
+            background: linear-gradient(to right, transparent, gold, transparent); /* Golden gradient */
+            transform: scaleX(0); /* Hidden initially */
+            transform-origin: left; /* Expand from left */
+            transition: transform 0.4s ease-out; /* Animation duration */
+            z-index: 1; /* Ensure it's above card content if needed */
+        }
+
+        .info-card:hover::before {
+            transform: scaleX(1); /* Expand to full width on hover */
+        }
+
+        .info-card img {
+            width: 100%;
+            height: 150px; /* Adjusted height for info cards */
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+        .info-card .card-body {
+            padding: 20px;
+            flex-grow: 1; /* Allows body to take remaining space */
+        }
+        .info-card .card-title {
+            font-size: 1.25rem; /* Adjusted title size for info cards */
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        .info-card .card-text {
+            font-size: 0.9rem; /* Adjusted text size for info cards */
+            color: var(--secondary-color);
+            margin-bottom: 0; /* No margin bottom as no button */
+        }
+
+
+        /* Footer */
+        .footer-custom {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 40px 0;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+        }
+        .footer-custom h5 {
+            color: var(--light-color);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .footer-custom ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-custom ul li {
+            margin-bottom: 10px;
+        }
+        .footer-custom ul li a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-custom ul li a:hover {
+            color: var(--primary-color);
+        }
+        .footer-custom .social-icons a {
+            color: var(--footer-text);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+        .footer-custom .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        .footer-custom .copyright {
+            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section p {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .auth-card {
+                margin: 30px auto;
+                padding: 20px;
+            }
+            .footer-custom .col-md-3 {
+                margin-bottom: 30px;
+            }
+            .scrollable-cards-row .info-card-wrapper {
+                width: 70%; /* Make cards wider on smaller screens for better touch scrolling */
+                margin: 0 10px; /* Add some side margin */
+            }
+            .scrollable-cards-row {
+                justify-content: flex-start; /* Align items to the start for scrolling */
+                padding: 0 15px; /* Add padding to sides for scrollable content */
+            }
+        }
+    </style>
+</head>
 <body>
 
-  <!-- ***** Preloader Start ***** -->
-  <div id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </div>
-  <!-- ***** Preloader End ***** -->
-
-
-  <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <h1>VeeranVitality</h1>
-                    </a>
-                    <!-- ***** Logo End ***** -->
-                    <!-- ***** Menu Start ***** -->
-                    <ul class="nav">
-                      <li><a href="index.html" class="active">Home</a></li>
-                      <li><a href="underconstruction.html">Login</a></li>
-                      <li><a href="properties.html">Medals</a></li>
-                  </ul>   
-                    <!-- ***** Menu End ***** -->
-                </nav>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home-page')">Veeran Vitality</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" onclick="showPage('home-page')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('events-page')">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('about-us')">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('under-construction')">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-success" href="#" onclick="showPage('login-page')">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-success ms-lg-2" href="#" onclick="showPage('signup-page')">Sign Up</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
+    </nav>
 
-  <div class="main-banner">
-    <div class="owl-carousel owl-banner">
-      <div class="item item-1">
-        <div class="header-text">
-          <span class="category">VeeranVitality <em>Fuel your workout</em></span>
-          <h2>Want to get motivated in your workout Journey, buy a medal today</h2>
+    <!-- Main Content Area -->
+    <main>
+        <!-- Home Page -->
+        <section id="home-page" class="page-section active">
+            <div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover;">
+                <div class="container">
+                    <h1>Conquer Your Next Adventure with Veeran Vitality</h1>
+                    <p>Embark on virtual challenges that take you to the world's most breathtaking locations. Run, walk, cycle, or swim your way to incredible medals and unforgettable experiences.</p>
+                    <a href="#" class="btn btn-primary" onclick="showPage('events-page')">Explore Challenges</a>
+                </div>
+            </div>
+            <div class="container mt-5">
+                <h2 class="section-title">Why Veeran Vitality?</h2>
+                <div class="scrollable-cards-container">
+                    <div class="row scrollable-cards-row">
+                        <div class="info-card-wrapper">
+                            <div class="card info-card">
+                                <img src="https://placehold.co/300x150/28a745/ffffff?text=Shiny+Medals" class="card-img-top" alt="Stunning Medals">
+                                <div class="card-body">
+                                    <h5 class="card-title">Stunning Medals</h5>
+                                    <p class="card-text">Earn unique, high-quality medals that celebrate your achievement.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-card-wrapper">
+                            <div class="card info-card">
+                                <img src="https://placehold.co/300x150/17a2b8/ffffff?text=Global+Virtual+Journeys" class="card-img-top" alt="Virtual Journeys">
+                                <div class="card-body">
+                                    <h5 class="card-title">Virtual Journeys</h5>
+                                    <p class="card-text">Explore iconic routes from around the globe, right from your doorstep.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-card-wrapper">
+                            <div class="card info-card">
+                                <img src="https://placehold.co/300x150/ffc107/ffffff?text=Supportive+Community" class="card-img-top" alt="Community Support">
+                                <div class="card-body">
+                                    <h5 class="card-title">Community Support</h5>
+                                    <p class="card-text">Join a thriving community of like-minded adventurers worldwide.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-card-wrapper">
+                            <div class="card info-card">
+                                <img src="https://placehold.co/300x150/007bff/ffffff?text=Track+Progress" class="card-img-top" alt="Track Progress">
+                                <div class="card-body">
+                                    <h5 class="card-title">Track Your Progress</h5>
+                                    <p class="card-text">Seamlessly log your activities and watch your virtual journey unfold.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-card-wrapper">
+                            <div class="card info-card">
+                                <img src="https://placehold.co/300x150/dc3545/ffffff?text=Personalized+Goals" class="card-img-top" alt="Personalized Goals">
+                                <div class="card-body">
+                                    <h5 class="card-title">Personalized Goals</h5>
+                                    <p class="card-text">Set your own pace and achieve your fitness milestones on your terms.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-us" class="page-section">
+            <div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover;">
+                <div class="container">
+                    We founded VeeranVitality to make users enjoy their workouts.
+                    <br>
+                    If you want to share feedback contact us,<br>
+                    C11, Casa Grande Aldea, <br>
+                    Bharathiyar nagar main road,<br>
+                    Okkiyam thuraipakkam,<br>
+                    Chennai - 600097 <br>
+                    Tamilnadu <br>
+                    India.<br>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Page -->
+        <section id="login-page" class="page-section">
+            <div class="container">
+                <div class="card auth-card">
+                    <h2 class="card-title text-center mb-4">Login to Your Account</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" disabled>Login</button>
+                    </form>
+                    <p class="text-center mt-3">Don't have an account? <a href="#" onclick="showPage('signup-page')">Sign Up</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sign Up Page -->
+        <section id="signup-page" class="page-section">
+            <div class="container">
+                <div class="card auth-card">
+                    <h2 class="card-title text-center mb-4">Create Your Account</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="signupName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signupName" placeholder="John Doe" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signupEmail" placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
+                            <div class="form-text">Password must be at least 8 characters long.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" disabled>Sign Up</button>
+                    </form>
+                    <p class="text-center mt-3">Already have an account? <a href="#" onclick="showPage('login-page')">Login</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Page -->
+        <section id="events-page" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Our Epic Challenges</h2>
+                <div class="row g-4">
+                    <!-- Event Card 1 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card event-card">
+                            <img src="https://placehold.co/400x200/28a745/ffffff?text=Everest+Base+Camp+Trek" class="card-img-top" alt="Mount Everest Base Camp Challenge">
+                            <div class="card-body">
+                                <h5 class="card-title">Everest Base Camp Trek</h5>
+                                <p class="card-text">Conquer the legendary trek to Everest Base Camp, 170km of pure adventure!</p>
+                                <a href="#" class="btn btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Card 2 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card event-card">
+                            <img src="https://placehold.co/400x200/17a2b8/ffffff?text=Great+Wall+of+China+Run" class="card-img-top" alt="Great Wall of China Challenge">
+                            <div class="card-body">
+                                <h5 class="card-title">Great Wall of China</h5>
+                                <p class="card-text">Walk the historic Great Wall, a 100km journey through ancient wonders.</p>
+                                <a href="#" class="btn btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Card 3 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card event-card">
+                            <img src="https://placehold.co/400x200/ffc107/ffffff?text=Route+66+Cycling" class="card-img-top" alt="Route 66 USA Challenge">
+                            <div class="card-body">
+                                <h5 class="card-title">Route 66 USA</h5>
+                                <p class="card-text">Cycle or run the iconic Route 66, a 3,669km cross-country adventure!</p>
+                                <a href="#" class="btn btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Card 4 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card event-card">
+                            <img src="https://placehold.co/400x200/dc3545/ffffff?text=Amazon+Jungle+Trek" class="card-img-top" alt="Amazon Rainforest Challenge">
+                            <div class="card-body">
+                                <h5 class="card-title">Amazon Rainforest Trek</h5>
+                                <p class="card-text">Immerse yourself in the Amazon, a 50km trek through lush wilderness.</p>
+                                <a href="#" class="btn btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Card 5 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card event-card">
+                            <img src="https://placehold.co/400x200/6c757d/ffffff?text=Sahara+Desert+Run" class="card-img-top" alt="Sahara Desert Challenge">
+                            <div class="card-body">
+                                <h5 class="card-title">Sahara Desert Crossing</h5>
+                                <p class="card-text">Brave the vast Sahara, a 200km endurance challenge across dunes.</p>
+                                <a href="#" class="btn btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Event Card 6 -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card event-card">
+                            <img src="https://placehold.co/400x200/007bff/ffffff?text=Norway+Fjords+Kayak" class="card-img-top" alt="Fjords of Norway Challenge">
+                            <div class="card-body">
+                                <h5 class="card-title">Fjords of Norway Kayak</h5>
+                                <p class="card-text">Paddle through the stunning Norwegian Fjords, a 150km scenic journey.</p>
+                                <a href="#" class="btn btn-info">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Under Construction Page -->
+        <section id="under-construction" class="page-section text-center py-5">
+            <div class="container">
+                <h2 class="section-title text-warning">Page Under Construction!</h2>
+                <p class="lead">We're working hard to bring you this content. Please check back later!</p>
+                <img src="https://placehold.co/400x300/ffc107/333333?text=Under+Construction" class="img-fluid rounded-3 mt-4" alt="Under Construction">
+                <p class="mt-4"><a href="#" onclick="showPage('home-page')">Go back to Home</a></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-custom mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5>Veeran Vitality</h5>
+                    <p>Embark on virtual challenges and earn incredible medals.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showPage('home-page')">Home</a></li>
+                        <li><a href="#" onclick="showPage('events-page')">Events</a></li>
+                        <li><a href="#" onclick="showPage('about-us')">About Us</a></li>
+                        <li><a href="#" onclick="showPage('under-construction')">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Statement</a></li>
+                        <li><a href="terms-of-service.pdf">Terms & Conditions</a></li>
+                        <li><a href="#" onclick="showPage('under-construction')">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <ul class="list-unstyled mt-3">
+                        <li><a href="#" onclick="showPage('under-construction')">Careers</a></li>
+                        <li><a href="#" onclick="showPage('under-construction')">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center copyright">
+                    &copy; 2025 Veeran Vitality. All rights reserved.
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </footer>
 
-  <footer>
-    <div class="container">
-      <div class="col-lg-8">
-        <p>Copyright © VeeranVitality pvt Ltd. All rights reserved.
-            ** <a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Policy</a> 
-            ** <a href="terms-of-service.pdf">Terms of Service</a>
-        </p>
-      </div>
+    <!-- Bootstrap JS and Popper.js (for dropdowns, toggles etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
-    </div>
-  </footer>
+    <script>
+        // JavaScript for page navigation simulation
+        function showPage(pageId) {
+            // Hide all page sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
 
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/js/isotope.min.js"></script>
-  <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/counter.js"></script>
-  <script src="assets/js/custom.js"></script>
+            // Show the requested page section or "under construction"
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.add('active');
+            } else {
+                // If pageId doesn't match a defined section, show "under-construction"
+                document.getElementById('under-construction').classList.add('active');
+            }
 
-  </body>
+
+            // Update active state in navbar
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+                link.classList.remove('active');
+                link.removeAttribute('aria-current');
+            });
+
+            // Set active class for the clicked link (only for actual pages)
+            if (pageId !== 'under-construction') {
+                const clickedLink = document.querySelector(`.navbar-nav .nav-link[onclick*="${pageId}"]`);
+                if (clickedLink) {
+                    clickedLink.classList.add('active');
+                    clickedLink.setAttribute('aria-current', 'page');
+                }
+            }
+        }
+
+        // Initialize with home page active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home-page');
+        });
+    </script>
+</body>
 </html>
