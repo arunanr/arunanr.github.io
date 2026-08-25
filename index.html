@@ -5,8 +5,11 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Veeran Vitality — Move. Explore. Achieve.</title>
 
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -21,6 +24,7 @@
       --border-focus: rgba(255, 255, 255, 0.25);
       --text-main: #f5f5f7;
       --text-muted: #86868b;
+      --text-label: #d2d2d7;
       --accent-green: #30d158;
       --accent-glow: rgba(48, 209, 88, 0.35);
       --accent-blue: #2997ff;
@@ -343,40 +347,82 @@
       margin-bottom: 20px;
     }
 
-    /* Auth & Form Styles */
+    /* High-Contrast Apple Auth Card & Inputs */
     .auth-box {
-      max-width: 440px;
+      max-width: 460px;
       margin: 40px auto;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
+      background: rgba(18, 18, 22, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: var(--radius-xl);
       padding: 44px;
       backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
     }
     .auth-title {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
       letter-spacing: -0.03em;
       margin-bottom: 8px;
       text-align: center;
+      color: #ffffff;
+    }
+    .auth-subhead {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .form-label-apple {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-label);
+      margin-bottom: 6px;
+      display: inline-block;
+      letter-spacing: -0.01em;
     }
     .apple-input {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 14px 16px;
-      color: #fff;
-      font-size: 15px;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      background: rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important;
+      border-radius: 12px !important;
+      padding: 13px 16px !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+    }
+    .apple-input::placeholder {
+      color: rgba(255, 255, 255, 0.35) !important;
     }
     .apple-input:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.2);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.12) !important;
+      border-color: var(--accent-blue) !important;
+      box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25) !important;
+      outline: none !important;
+      color: #ffffff !important;
+    }
+    .form-helper-text {
+      color: #86868b;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+    .auth-footer-text {
+      font-size: 13px;
+      color: #86868b;
+      text-align: center;
+      margin-top: 24px;
+    }
+    .auth-link {
+      color: #2997ff;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .auth-link:hover {
+      color: #53aeff;
+      text-decoration: underline;
     }
 
-    /* Apple-style Footer */
+    /* Apple Minimalist Footer */
     .footer-apple {
       background: #000;
       border-top: 1px solid var(--border-subtle);
@@ -413,6 +459,7 @@
 </head>
 <body>
 
+  <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark navbar-apple fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#" onclick="showPage('home-page')">
@@ -445,6 +492,7 @@
   </nav>
 
   <main>
+    <!-- HOME / HERO & BENTO -->
     <section class="page-section active" id="home-page">
       <div class="ambient-glow"></div>
       
@@ -464,11 +512,13 @@
         </div>
       </div>
 
+      <!-- Bento Grid Features Section -->
       <div class="section-shell">
         <div class="section-label">Engineered for Achievement</div>
         <h2 class="section-headline">Why Veeran Vitality.</h2>
         
         <div class="bento-grid">
+          <!-- Bento 1 (Large) -->
           <div class="bento-item bento-col-7">
             <div>
               <div class="bento-icon"><i class="fa-solid fa-earth-americas"></i></div>
@@ -482,6 +532,7 @@
             </div>
           </div>
 
+          <!-- Bento 2 (Small) -->
           <div class="bento-item bento-col-5">
             <div>
               <div class="bento-icon"><i class="fa-solid fa-watch-fitness"></i></div>
@@ -495,6 +546,7 @@
             </div>
           </div>
 
+          <!-- Bento 3 -->
           <div class="bento-item bento-col-4">
             <div class="bento-icon"><i class="fa-solid fa-users"></i></div>
             <div class="bento-title">Supportive Community</div>
@@ -503,6 +555,7 @@
             </div>
           </div>
 
+          <!-- Bento 4 -->
           <div class="bento-item bento-col-4">
             <div class="bento-icon"><i class="fa-solid fa-chart-line-up"></i></div>
             <div class="bento-title">Precision Analytics</div>
@@ -511,6 +564,7 @@
             </div>
           </div>
 
+          <!-- Bento 5 -->
           <div class="bento-item bento-col-4">
             <div class="bento-icon"><i class="fa-solid fa-award"></i></div>
             <div class="bento-title">Tangible Rewards</div>
@@ -522,6 +576,7 @@
       </div>
     </section>
 
+    <!-- EVENTS PAGE -->
     <section class="page-section" id="events-page">
       <div class="section-shell">
         <div class="text-center mb-5">
@@ -530,6 +585,7 @@
         </div>
 
         <div class="row g-4">
+          <!-- Card 1 -->
           <div class="col-md-6 col-lg-4">
             <div class="challenge-card">
               <div class="challenge-img-wrap">
@@ -546,6 +602,7 @@
             </div>
           </div>
 
+          <!-- Card 2 -->
           <div class="col-md-6 col-lg-4">
             <div class="challenge-card">
               <div class="challenge-img-wrap">
@@ -562,6 +619,7 @@
             </div>
           </div>
 
+          <!-- Card 3 -->
           <div class="col-md-6 col-lg-4">
             <div class="challenge-card">
               <div class="challenge-img-wrap">
@@ -578,6 +636,7 @@
             </div>
           </div>
 
+          <!-- Card 4 -->
           <div class="col-md-6 col-lg-4">
             <div class="challenge-card">
               <div class="challenge-img-wrap">
@@ -594,6 +653,7 @@
             </div>
           </div>
 
+          <!-- Card 5 -->
           <div class="col-md-6 col-lg-4">
             <div class="challenge-card">
               <div class="challenge-img-wrap">
@@ -610,6 +670,7 @@
             </div>
           </div>
 
+          <!-- Card 6 -->
           <div class="col-md-6 col-lg-4">
             <div class="challenge-card">
               <div class="challenge-img-wrap">
@@ -629,75 +690,84 @@
       </div>
     </section>
 
+    <!-- ABOUT US PAGE -->
     <section class="page-section" id="about-us">
       <div class="section-shell text-center" style="max-width: 780px;">
         <div class="hero-badge">Our Mission</div>
         <h1 class="headline-large">Fitness made adventurous.</h1>
         <p class="subhead-large" style="margin-bottom: 40px;">
-          Veeran Vitality was built on the conviction that fitness shouldn’t feel like a chore. By merging virtual storytelling, global communities, and rewarding milestones, we turn everyday movement into lifelong expeditions.
+          Veeran Vitality was built on the conviction that fitness shouldn’t feel like a chore[cite: 1]. By merging virtual storytelling, global communities, and rewarding milestones, we turn everyday movement into lifelong expeditions.
         </p>
         <div class="bento-item text-start p-4 mb-4">
           <div class="bento-title">Have thoughts or questions?</div>
-          <p class="bento-desc mb-3">Our crew is always here to listen and help you reach your goals.</p>
-          <a href="mailto:support@veeranvitality.com" class="text-success fw-semibold">support@veeranvitality.com &rarr;</a>
+          <p class="bento-desc mb-3">Our crew is always here to listen and help you reach your goals[cite: 1].</p>
+          <a href="mailto:support@veeranvitality.com" class="text-success fw-semibold">support@veeranvitality.com &rarr;[cite: 1]</a>
         </div>
       </div>
     </section>
 
+    <!-- LOGIN PAGE -->
     <section class="page-section" id="login-page">
       <div class="container">
         <div class="auth-box">
           <h2 class="auth-title">Welcome back.</h2>
-          <p class="text-center text-muted mb-4 font-small">Log in to view challenge milestones.</p>
+          <p class="auth-subhead">Log in to view challenge milestones.</p>
           <form onsubmit="event.preventDefault()">
             <div class="mb-3">
-              <label class="form-label small text-muted" for="loginEmail">Email</label>
+              <label class="form-label-apple" for="loginEmail">Email Address</label>
               <input class="form-control apple-input" id="loginEmail" placeholder="name@apple.com" required="" type="email"/>
             </div>
             <div class="mb-3">
-              <label class="form-label small text-muted" for="loginPassword">Password</label>
+              <label class="form-label-apple" for="loginPassword">Password</label>
               <input class="form-control apple-input" id="loginPassword" placeholder="••••••••" required="" type="password"/>
             </div>
-            <div class="mb-4 form-check">
-              <input class="form-check-input bg-dark border-secondary" id="rememberMe" type="checkbox"/>
-              <label class="form-check-label small text-muted" for="rememberMe">Remember my device</label>
+            <div class="mb-4 form-check d-flex align-items-center gap-2">
+              <input class="form-check-input bg-dark border-secondary m-0" id="rememberMe" type="checkbox"/>
+              <label class="form-check-label text-light small" for="rememberMe">Remember this browser</label>
             </div>
-            <button class="btn btn-apple-primary w-100 mb-3" type="submit">Sign In</button>
+            <button class="btn btn-apple-primary w-100 py-3" type="submit">Sign In</button>
           </form>
-          <div class="text-center small text-muted">
-            New here? <a href="#" class="text-white fw-semibold" onclick="showPage('signup-page')">Create an account</a>
+          <div class="auth-footer-text">
+            Don't have an account? <a href="#" class="auth-link" onclick="showPage('signup-page')">Sign Up</a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- SIGN UP / GET STARTED PAGE -->
     <section class="page-section" id="signup-page">
       <div class="container">
         <div class="auth-box">
           <h2 class="auth-title">Join the expedition.</h2>
-          <p class="text-center text-muted mb-4">Start logging workouts and earning medals today.</p>
+          <p class="auth-subhead">Start logging workouts and earning medals today.</p>
           <form onsubmit="event.preventDefault()">
             <div class="mb-3">
-              <label class="form-label small text-muted" for="signupName">Full Name</label>
+              <label class="form-label-apple" for="signupName">Full Name</label>
               <input class="form-control apple-input" id="signupName" placeholder="Alex Rivers" required="" type="text"/>
             </div>
             <div class="mb-3">
-              <label class="form-label small text-muted" for="signupEmail">Email</label>
+              <label class="form-label-apple" for="signupEmail">Email Address</label>
               <input class="form-control apple-input" id="signupEmail" placeholder="name@apple.com" required="" type="email"/>
             </div>
             <div class="mb-3">
-              <label class="form-label small text-muted" for="signupPassword">Password</label>
-              <input class="form-control apple-input" id="signupPassword" placeholder="Minimum 8 characters" required="" type="password"/>
+              <label class="form-label-apple" for="signupPassword">Password</label>
+              <input class="form-control apple-input" id="signupPassword" placeholder="Create a password" required="" type="password"/>
+              <div class="form-helper-text">Password must be at least 8 characters long[cite: 1].</div>
             </div>
-            <button class="btn btn-apple-primary w-100 mb-3" type="submit">Create Account</button>
+            <div class="mb-4">
+              <label class="form-label-apple" for="confirmPassword">Confirm Password</label>
+              <input class="form-control apple-input" id="confirmPassword" placeholder="Repeat your password" required="" type="password"/>
+            </div>
+            <button class="btn btn-apple-primary w-100 py-3" type="submit">Create Account</button>
           </form>
-          <div class="text-center small text-muted">
-            Already registered? <a href="#" class="text-white fw-semibold" onclick="showPage('login-page')">Sign In</a>
+          <div class="auth-footer-text">
+            Already have an account? <a href="#" class="auth-link" onclick="showPage('login-page')">Sign In</a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- UNDER CONSTRUCTION -->
     <section class="page-section text-center py-5" id="under-construction">
       <div class="container py-5">
         <div class="hero-badge"><i class="fa-solid fa-hammer"></i> Work In Progress</div>
@@ -708,6 +778,7 @@
     </section>
   </main>
 
+  <!-- Apple Minimalist Footer -->
   <footer class="footer-apple">
     <div class="container">
       <div class="row g-4 mb-5">
@@ -730,8 +801,8 @@
         <div class="col-6 col-md-3">
           <div class="footer-title">Legal</div>
           <ul class="footer-links">
-            <li><a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Policy</a></li>
-            <li><a href="terms-of-service.pdf">Terms of Service</a></li>
+            <li><a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Policy[cite: 1]</a></li>
+            <li><a href="terms-of-service.pdf">Terms of Service[cite: 1]</a></li>
             <li><a href="#" onclick="showPage('under-construction')">Cookie Preferences</a></li>
           </ul>
         </div>
