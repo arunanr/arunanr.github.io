@@ -1,724 +1,798 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veeran Vitality - Adventure Events</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Custom Styles */
-        :root {
-            --primary-color: #28a745; /* Green for adventure/growth */
-            --secondary-color: #6c757d; /* Muted grey */
-            --dark-color: #212529;
-            --light-color: #f8f9fa;
-            --info-color: #17a2b8;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --card-bg: #ffffff;
-            --footer-bg: #343a40;
-            --footer-text: #adb5bd;
-            --hover-shadow: rgba(0, 0, 0, 0.25);
-        }
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Veeran Vitality — Move. Explore. Achieve.</title>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light-color);
-            color: var(--dark-color);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 
-        /* Navbar Customization */
-        .navbar-custom {
-            background-color: var(--dark-color);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .navbar-custom .navbar-brand {
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        .navbar-custom .nav-link {
-            color: var(--light-color);
-            font-weight: 500;
-            margin-right: 15px;
-            transition: color 0.3s ease;
-        }
-        .navbar-custom .nav-link:hover {
-            color: var(--primary-color);
-        }
-        .navbar-custom .btn-outline-success {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .navbar-custom .btn-outline-success:hover {
-            background-color: var(--primary-color);
-            color: var(--dark-color);
-        }
+  <style>
+    :root {
+      --bg-dark: #000000;
+      --bg-surface: #0a0a0c;
+      --bg-card: rgba(22, 22, 26, 0.7);
+      --bg-card-hover: rgba(30, 30, 36, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 255, 255, 0.25);
+      --text-main: #f5f5f7;
+      --text-muted: #86868b;
+      --accent-green: #30d158;
+      --accent-glow: rgba(48, 209, 88, 0.35);
+      --accent-blue: #2997ff;
+      --radius-xl: 30px;
+      --radius-md: 20px;
+      --radius-pill: 980px;
+      --max-width: 1200px;
+    }
 
-        /* Main Content Area */
-        main {
-            flex: 1; /* Allows main content to grow and push footer down */
-            padding-top: 0; /* Removed offset for fixed navbar to remove space */
-        }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-        /* Page Sections */
-        .page-section {
-            display: none; /* Hidden by default, shown by JS */
-            padding: 40px 0;
-        }
-        .page-section.active {
-            display: block;
-        }
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-        /* Add padding to all page sections except the home page hero section */
-        .page-section:not(#home-page) {
-            padding-top: 80px !important; /* Adjust as needed to clear the fixed navbar */
-        }
+    a { text-decoration: none; color: inherit; }
 
+    /* Ambient Background Glows */
+    .ambient-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+      filter: blur(80px);
+      pointer-events: none;
+    }
 
-        /* Home Page Hero Section */
-        .hero-section {
-            /*background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover; */
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            background-size: cover; /* Ensure the image covers the entire section */
-            background-position: center; /* Center the background image */
-        }
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        .hero-section p {
-            font-size: 1.25rem;
-            margin-bottom: 30px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero-section .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hero-section .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-        }
+    /* Apple-Style Ultra Nav */
+    .navbar-apple {
+      background: rgba(0, 0, 0, 0.75) !important;
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      height: 54px;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .navbar-apple .container { max-width: var(--max-width); }
+    .navbar-apple .navbar-brand {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff !important;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .navbar-apple .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted) !important;
+      padding: 6px 14px !important;
+      border-radius: var(--radius-pill);
+      transition: color 0.2s ease, opacity 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+    .navbar-apple .nav-link:hover,
+    .navbar-apple .nav-link.active {
+      color: #fff !important;
+    }
+    .btn-nav-action {
+      background: #fff !important;
+      color: #000 !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      padding: 6px 16px !important;
+      border-radius: var(--radius-pill) !important;
+      transition: transform 0.2s ease, opacity 0.2s ease !important;
+    }
+    .btn-nav-action:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
 
-        /* Section Styling */
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 40px;
-            text-align: center;
-        }
+    main { padding-top: 54px; min-height: 80vh; }
+    .page-section { display: none; }
+    .page-section.active { display: block; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 
-        /* Auth Pages (Login/Signup) */
-        .auth-card {
-            max-width: 450px;
-            margin: 50px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            background-color: var(--card-bg);
-            border: none;
-        }
-        .auth-card .form-control {
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid #ced4da;
-        }
-        .auth-card .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
-        }
-        .auth-card .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 1.1rem;
-            width: 100%;
-        }
-        .auth-card .btn-primary:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        /* Events Page Cards */
-        .event-card {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background-color: var(--card-bg);
-            border: none;
-        }
-        .event-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px var(--hover-shadow);
-        }
-        .event-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 15px 15px 0 0;
-        }
-        .event-card .card-body {
-            padding: 20px;
-        }
-        .event-card .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 10px;
-        }
-        .event-card .card-text {
-            font-size: 0.95rem;
-            color: var(--secondary-color);
-            margin-bottom: 15px;
-        }
-        .event-card .btn-info {
-            background-color: var(--info-color);
-            border-color: var(--info-color);
-            border-radius: 8px;
-            padding: 8px 15px;
-            font-size: 0.9rem;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        .event-card .btn-info:hover {
-            background-color: #138496;
-            transform: scale(1.05);
-        }
+    /* Typography Hierarchy */
+    .headline-large {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1.04;
+      background: linear-gradient(180deg, #FFFFFF 40%, rgba(255, 255, 255, 0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+    .subhead-large {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: -0.02em;
+      line-height: 1.45;
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
 
-        /* Info Cards (Why Veeran Vitality?) */
-        .scrollable-cards-container {
-            overflow-x: auto;
-            padding-bottom: 15px; /* Space for scrollbar */
-        }
+    /* Hero Section */
+    .hero-container {
+      position: relative;
+      padding: 130px 24px 100px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-green);
+      background: rgba(48, 209, 88, 0.12);
+      border: 1px solid rgba(48, 209, 88, 0.25);
+      border-radius: var(--radius-pill);
+      padding: 5px 14px;
+      margin-bottom: 24px;
+    }
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-apple-primary {
+      background: #0071e3;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 12px 28px;
+      border-radius: var(--radius-pill);
+      border: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-apple-primary:hover {
+      background: #0077ED;
+      transform: scale(1.03);
+      color: #fff;
+    }
+    .btn-apple-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 12px 26px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+    }
+    .btn-apple-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
 
-        /* Custom scrollbar styles (Webkit browsers) */
-        .scrollable-cards-container::-webkit-scrollbar {
-            height: 8px;
-        }
+    /* Bento Grid Section */
+    .section-shell {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-label {
+      color: var(--accent-green);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .section-headline {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 48px;
+      color: #fff;
+    }
 
-        .scrollable-cards-container::-webkit-scrollbar-thumb {
-            background-color: var(--primary-color);
-            border-radius: 10px;
-        }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+    .bento-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .bento-item:hover {
+      border-color: var(--border-focus);
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+    }
+    .bento-col-7 { grid-column: span 7; }
+    .bento-col-5 { grid-column: span 5; }
+    .bento-col-4 { grid-column: span 4; }
+    .bento-col-6 { grid-column: span 6; }
+    .bento-col-12 { grid-column: span 12; }
 
-        .scrollable-cards-container::-webkit-scrollbar-track {
-            background-color: #e9ecef; /* Light grey track */
-        }
+    .bento-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .bento-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .bento-media {
+      margin-top: 24px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      width: 100%;
+      height: 200px;
+      background: #111;
+      border: 1px solid var(--border-subtle);
+    }
+    .bento-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .bento-item:hover .bento-media img {
+      transform: scale(1.05);
+    }
+    .bento-icon {
+      font-size: 32px;
+      color: var(--accent-green);
+      margin-bottom: 20px;
+    }
 
-        .scrollable-cards-row {
-            display: flex;
-            flex-wrap: nowrap; /* Prevent wrapping */
-            gap: 24px; /* Space between cards */
-            padding-bottom: 5px; /* To prevent content from being cut by scrollbar */
-        }
+    /* Event Challenge Cards */
+    .challenge-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .challenge-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .challenge-img-wrap {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+    .challenge-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .challenge-card:hover .challenge-img-wrap img {
+      transform: scale(1.06);
+    }
+    .challenge-pill {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .challenge-body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+    .challenge-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .challenge-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
 
-        .info-card-wrapper {
-            flex: 0 0 auto; /* Prevent shrinking and growing, maintain content width */
-            width: 300px; /* Fixed width for each card in scrollable view */
-            max-width: 100%; /* Ensure it doesn't exceed parent width on small screens */
-        }
+    /* Auth & Form Styles */
+    .auth-box {
+      max-width: 440px;
+      margin: 40px auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 44px;
+      backdrop-filter: blur(30px);
+    }
+    .auth-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .apple-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: #fff;
+      font-size: 15px;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .apple-input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.2);
+      color: #fff;
+    }
 
-        .info-card {
-            position: relative;
-            overflow: hidden; /* Crucial for pseudo-element to stay within bounds */
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background-color: var(--card-bg);
-            border: none; /* Ensure no default border interferes */
-            height: 100%; /* Ensure cards are same height if content varies */
-            display: flex;
-            flex-direction: column;
-        }
+    /* Apple-style Footer */
+    .footer-apple {
+      background: #000;
+      border-top: 1px solid var(--border-subtle);
+      padding: 60px 24px 40px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-apple .container { max-width: var(--max-width); }
+    .footer-title {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .footer-links { list-style: none; padding: 0; margin: 0; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a:hover { color: #fff; }
 
-        .info-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px var(--hover-shadow);
-        }
-
-        .info-card::before {
-            content: '';
-            position: absolute;
-            top: 0; /* Start from top */
-            left: 0;
-            width: 100%;
-            height: 5px; /* Thickness of the border */
-            background: linear-gradient(to right, transparent, gold, transparent); /* Golden gradient */
-            transform: scaleX(0); /* Hidden initially */
-            transform-origin: left; /* Expand from left */
-            transition: transform 0.4s ease-out; /* Animation duration */
-            z-index: 1; /* Ensure it's above card content if needed */
-        }
-
-        .info-card:hover::before {
-            transform: scaleX(1); /* Expand to full width on hover */
-        }
-
-        .info-card img {
-            width: 100%;
-            height: 150px; /* Adjusted height for info cards */
-            object-fit: cover;
-            border-radius: 15px 15px 0 0;
-        }
-        .info-card .card-body {
-            padding: 20px;
-            flex-grow: 1; /* Allows body to take remaining space */
-        }
-        .info-card .card-title {
-            font-size: 1.25rem; /* Adjusted title size for info cards */
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 10px;
-        }
-        .info-card .card-text {
-            font-size: 0.9rem; /* Adjusted text size for info cards */
-            color: var(--secondary-color);
-            margin-bottom: 0; /* No margin bottom as no button */
-        }
-
-
-        /* Footer */
-        .footer-custom {
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            padding: 40px 0;
-            border-radius: 15px 15px 0 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-        }
-        .footer-custom h5 {
-            color: var(--light-color);
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .footer-custom ul {
-            list-style: none;
-            padding: 0;
-        }
-        .footer-custom ul li {
-            margin-bottom: 10px;
-        }
-        .footer-custom ul li a {
-            color: var(--footer-text);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .footer-custom ul li a:hover {
-            color: var(--primary-color);
-        }
-        .footer-custom .social-icons a {
-            color: var(--footer-text);
-            font-size: 1.5rem;
-            margin-right: 15px;
-            transition: color 0.3s ease;
-        }
-        .footer-custom .social-icons a:hover {
-            color: var(--primary-color);
-        }
-        .footer-custom .copyright {
-            font-size: 0.9rem;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 20px;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2.5rem;
-            }
-            .hero-section p {
-                font-size: 1rem;
-            }
-            .section-title {
-                font-size: 2rem;
-            }
-            .auth-card {
-                margin: 30px auto;
-                padding: 20px;
-            }
-            .footer-custom .col-md-3 {
-                margin-bottom: 30px;
-            }
-            .scrollable-cards-row .info-card-wrapper {
-                width: 70%; /* Make cards wider on smaller screens for better touch scrolling */
-                margin: 0 10px; /* Add some side margin */
-            }
-            .scrollable-cards-row {
-                justify-content: flex-start; /* Align items to the start for scrolling */
-                padding: 0 15px; /* Add padding to sides for scrollable content */
-            }
-        }
-    </style>
+    /* Responsive Breakpoints */
+    @media (max-width: 992px) {
+      .bento-col-7, .bento-col-5, .bento-col-4, .bento-col-6 {
+        grid-column: span 12;
+      }
+      .navbar-collapse {
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 24px;
+        border-radius: var(--radius-md);
+        margin-top: 12px;
+        border: 1px solid var(--border-subtle);
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#" onclick="showPage('home-page')">Veeran Vitality</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" onclick="showPage('home-page')">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('events-page')">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('about-us')">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showPage('under-construction')">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-success" href="#" onclick="showPage('login-page')">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-success ms-lg-2" href="#" onclick="showPage('signup-page')">Sign Up</a>
-                    </li>
-                </ul>
-            </div>
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-apple fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#" onclick="showPage('home-page')">
+        <i class="fa-solid fa-bolt-lightning text-success"></i> Veeran Vitality
+      </a>
+      <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler border-0" onclick="toggleMenu()" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="showPage('home-page')">Overview</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showPage('events-page')">Challenges</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showPage('about-us')">Vision</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showPage('under-construction')">Support</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+          <a class="nav-link" href="#" onclick="showPage('login-page')">Sign In</a>
+          <a class="btn btn-nav-action" href="#" onclick="showPage('signup-page')">Get Started</a>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Main Content Area -->
-    <main>
-        <!-- Home Page -->
-        <section id="home-page" class="page-section active">
-            <div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover;">
-                <div class="container">
-                    <h1>Conquer Your Next Adventure with Veeran Vitality</h1>
-                    <p>Embark on virtual challenges that take you to the world's most breathtaking locations. Run, walk, cycle, or swim your way to incredible medals and unforgettable experiences.</p>
-                    <a href="#" class="btn btn-primary" onclick="showPage('events-page')">Explore Challenges</a>
-                </div>
-            </div>
-            <div class="container mt-5">
-                <h2 class="section-title">Why Veeran Vitality?</h2>
-                <div class="scrollable-cards-container">
-                    <div class="row scrollable-cards-row">
-                        <div class="info-card-wrapper">
-                            <div class="card info-card">
-                                <img src="https://placehold.co/300x150/28a745/ffffff?text=Shiny+Medals" class="card-img-top" alt="Stunning Medals">
-                                <div class="card-body">
-                                    <h5 class="card-title">Stunning Medals</h5>
-                                    <p class="card-text">Earn unique, high-quality medals that celebrate your achievement.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-card-wrapper">
-                            <div class="card info-card">
-                                <img src="https://placehold.co/300x150/17a2b8/ffffff?text=Global+Virtual+Journeys" class="card-img-top" alt="Virtual Journeys">
-                                <div class="card-body">
-                                    <h5 class="card-title">Virtual Journeys</h5>
-                                    <p class="card-text">Explore iconic routes from around the globe, right from your doorstep.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-card-wrapper">
-                            <div class="card info-card">
-                                <img src="https://placehold.co/300x150/ffc107/ffffff?text=Supportive+Community" class="card-img-top" alt="Community Support">
-                                <div class="card-body">
-                                    <h5 class="card-title">Community Support</h5>
-                                    <p class="card-text">Join a thriving community of like-minded adventurers worldwide.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-card-wrapper">
-                            <div class="card info-card">
-                                <img src="https://placehold.co/300x150/007bff/ffffff?text=Track+Progress" class="card-img-top" alt="Track Progress">
-                                <div class="card-body">
-                                    <h5 class="card-title">Track Your Progress</h5>
-                                    <p class="card-text">Seamlessly log your activities and watch your virtual journey unfold.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-card-wrapper">
-                            <div class="card info-card">
-                                <img src="https://placehold.co/300x150/dc3545/ffffff?text=Personalized+Goals" class="card-img-top" alt="Personalized Goals">
-                                <div class="card-body">
-                                    <h5 class="card-title">Personalized Goals</h5>
-                                    <p class="card-text">Set your own pace and achieve your fitness milestones on your terms.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about-us" class="page-section">
-            <div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover;">
-                <div class="container">
-                    We founded VeeranVitality to make users enjoy their workouts.
-                    <br>
-                    If you want to share feedback contact us,<br>
-                    C11, Casa Grande Aldea, <br>
-                    Bharathiyar nagar main road,<br>
-                    Okkiyam thuraipakkam,<br>
-                    Chennai - 600097 <br>
-                    Tamilnadu <br>
-                    India.<br>
-                </div>
-            </div>
-        </section>
-
-        <!-- Login Page -->
-        <section id="login-page" class="page-section">
-            <div class="container">
-                <div class="card auth-card">
-                    <h2 class="card-title text-center mb-4">Login to Your Account</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="loginEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">Remember me</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary" disabled>Login</button>
-                    </form>
-                    <p class="text-center mt-3">Don't have an account? <a href="#" onclick="showPage('signup-page')">Sign Up</a></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sign Up Page -->
-        <section id="signup-page" class="page-section">
-            <div class="container">
-                <div class="card auth-card">
-                    <h2 class="card-title text-center mb-4">Create Your Account</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="signupName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="signupName" placeholder="John Doe" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="signupEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="signupEmail" placeholder="name@example.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="signupPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
-                            <div class="form-text">Password must be at least 8 characters long.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary" disabled>Sign Up</button>
-                    </form>
-                    <p class="text-center mt-3">Already have an account? <a href="#" onclick="showPage('login-page')">Login</a></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Events Page -->
-        <section id="events-page" class="page-section">
-            <div class="container">
-                <h2 class="section-title">Our Epic Challenges</h2>
-                <div class="row g-4">
-                    <!-- Event Card 1 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card event-card">
-                            <img src="https://placehold.co/400x200/28a745/ffffff?text=Everest+Base+Camp+Trek" class="card-img-top" alt="Mount Everest Base Camp Challenge">
-                            <div class="card-body">
-                                <h5 class="card-title">Everest Base Camp Trek</h5>
-                                <p class="card-text">Conquer the legendary trek to Everest Base Camp, 170km of pure adventure!</p>
-                                <a href="#" class="btn btn-info">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Card 2 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card event-card">
-                            <img src="https://placehold.co/400x200/17a2b8/ffffff?text=Great+Wall+of+China+Run" class="card-img-top" alt="Great Wall of China Challenge">
-                            <div class="card-body">
-                                <h5 class="card-title">Great Wall of China</h5>
-                                <p class="card-text">Walk the historic Great Wall, a 100km journey through ancient wonders.</p>
-                                <a href="#" class="btn btn-info">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Card 3 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card event-card">
-                            <img src="https://placehold.co/400x200/ffc107/ffffff?text=Route+66+Cycling" class="card-img-top" alt="Route 66 USA Challenge">
-                            <div class="card-body">
-                                <h5 class="card-title">Route 66 USA</h5>
-                                <p class="card-text">Cycle or run the iconic Route 66, a 3,669km cross-country adventure!</p>
-                                <a href="#" class="btn btn-info">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Card 4 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card event-card">
-                            <img src="https://placehold.co/400x200/dc3545/ffffff?text=Amazon+Jungle+Trek" class="card-img-top" alt="Amazon Rainforest Challenge">
-                            <div class="card-body">
-                                <h5 class="card-title">Amazon Rainforest Trek</h5>
-                                <p class="card-text">Immerse yourself in the Amazon, a 50km trek through lush wilderness.</p>
-                                <a href="#" class="btn btn-info">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Card 5 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card event-card">
-                            <img src="https://placehold.co/400x200/6c757d/ffffff?text=Sahara+Desert+Run" class="card-img-top" alt="Sahara Desert Challenge">
-                            <div class="card-body">
-                                <h5 class="card-title">Sahara Desert Crossing</h5>
-                                <p class="card-text">Brave the vast Sahara, a 200km endurance challenge across dunes.</p>
-                                <a href="#" class="btn btn-info">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Card 6 -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card event-card">
-                            <img src="https://placehold.co/400x200/007bff/ffffff?text=Norway+Fjords+Kayak" class="card-img-top" alt="Fjords of Norway Challenge">
-                            <div class="card-body">
-                                <h5 class="card-title">Fjords of Norway Kayak</h5>
-                                <p class="card-text">Paddle through the stunning Norwegian Fjords, a 150km scenic journey.</p>
-                                <a href="#" class="btn btn-info">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Under Construction Page -->
-        <section id="under-construction" class="page-section text-center py-5">
-            <div class="container">
-                <h2 class="section-title text-warning">Page Under Construction!</h2>
-                <p class="lead">We're working hard to bring you this content. Please check back later!</p>
-                <img src="https://placehold.co/400x300/ffc107/333333?text=Under+Construction" class="img-fluid rounded-3 mt-4" alt="Under Construction">
-                <p class="mt-4"><a href="#" onclick="showPage('home-page')">Go back to Home</a></p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer-custom mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h5>Veeran Vitality</h5>
-                    <p>Embark on virtual challenges and earn incredible medals.</p>
-                </div>
-                <div class="col-md-3">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" onclick="showPage('home-page')">Home</a></li>
-                        <li><a href="#" onclick="showPage('events-page')">Events</a></li>
-                        <li><a href="#" onclick="showPage('about-us')">About Us</a></li>
-                        <li><a href="#" onclick="showPage('under-construction')">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Legal</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Statement</a></li>
-                        <li><a href="terms-of-service.pdf">Terms & Conditions</a></li>
-                        <li><a href="#" onclick="showPage('under-construction')">Cookie Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Connect With Us</h5>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                    <ul class="list-unstyled mt-3">
-                        <li><a href="#" onclick="showPage('under-construction')">Careers</a></li>
-                        <li><a href="#" onclick="showPage('under-construction')">FAQ</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 text-center copyright">
-                    &copy; 2025 Veeran Vitality. All rights reserved.
-                </div>
-            </div>
+  <main>
+    <section class="page-section active" id="home-page">
+      <div class="ambient-glow"></div>
+      
+      <div class="hero-container">
+        <div class="hero-badge">
+          <i class="fa-solid fa-sparkles"></i> The New Standard in Virtual Fitness
         </div>
-    </footer>
+        <h1 class="headline-large">
+          Move beyond limits.<br/>Explore the globe.
+        </h1>
+        <p class="subhead-large">
+          Transform daily runs, walks, and rides into cinematic expeditions across legendary routes—earning handcrafted custom medals at every milestone.
+        </p>
+        <div class="cta-group">
+          <button class="btn btn-apple-primary" onclick="showPage('events-page')">Explore Challenges</button>
+          <button class="btn btn-apple-secondary" onclick="showPage('signup-page')">Create Free Account</button>
+        </div>
+      </div>
 
-    <!-- Bootstrap JS and Popper.js (for dropdowns, toggles etc.) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+      <div class="section-shell">
+        <div class="section-label">Engineered for Achievement</div>
+        <h2 class="section-headline">Why Veeran Vitality.</h2>
+        
+        <div class="bento-grid">
+          <div class="bento-item bento-col-7">
+            <div>
+              <div class="bento-icon"><i class="fa-solid fa-earth-americas"></i></div>
+              <div class="bento-title">Global Virtual Journeys</div>
+              <div class="bento-desc">
+                Step into hyper-realistic route trackers. Traverse the Great Wall or summit Everest right from your local neighborhood trail.
+              </div>
+            </div>
+            <div class="bento-media">
+              <img alt="Global Virtual Journeys" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop"/>
+            </div>
+          </div>
 
-    <script>
-        // JavaScript for page navigation simulation
-        function showPage(pageId) {
-            // Hide all page sections
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.remove('active');
-            });
+          <div class="bento-item bento-col-5">
+            <div>
+              <div class="bento-icon"><i class="fa-solid fa-watch-fitness"></i></div>
+              <div class="bento-title">Seamless Device Sync</div>
+              <div class="bento-desc">
+                Effortlessly sync Apple Watch, Garmin, Strava, and Fitbit. Your metrics flow instantly into your challenge progress.
+              </div>
+            </div>
+            <div class="bento-media">
+              <img alt="Device Sync" src="https://images.unsplash.com/photo-1510017803434-a899398421b3?q=80&w=800&auto=format&fit=crop"/>
+            </div>
+          </div>
 
-            // Show the requested page section or "under construction"
-            const activePage = document.getElementById(pageId);
-            if (activePage) {
-                activePage.classList.add('active');
-            } else {
-                // If pageId doesn't match a defined section, show "under-construction"
-                document.getElementById('under-construction').classList.add('active');
-            }
+          <div class="bento-item bento-col-4">
+            <div class="bento-icon"><i class="fa-solid fa-users"></i></div>
+            <div class="bento-title">Supportive Community</div>
+            <div class="bento-desc">
+              Connect with a vibrant network of global runners and walkers driving each other forward.
+            </div>
+          </div>
 
+          <div class="bento-item bento-col-4">
+            <div class="bento-icon"><i class="fa-solid fa-chart-line-up"></i></div>
+            <div class="bento-title">Precision Analytics</div>
+            <div class="bento-desc">
+              Track pace, elevation gains, and completion milestones with clean, high-precision visual graphs.
+            </div>
+          </div>
 
-            // Update active state in navbar
-            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-                link.classList.remove('active');
-                link.removeAttribute('aria-current');
-            });
+          <div class="bento-item bento-col-4">
+            <div class="bento-icon"><i class="fa-solid fa-award"></i></div>
+            <div class="bento-title">Tangible Rewards</div>
+            <div class="bento-desc">
+              Earn hefty, intricately designed metal collector medals delivered straight to your door upon completion.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            // Set active class for the clicked link (only for actual pages)
-            if (pageId !== 'under-construction') {
-                const clickedLink = document.querySelector(`.navbar-nav .nav-link[onclick*="${pageId}"]`);
-                if (clickedLink) {
-                    clickedLink.classList.add('active');
-                    clickedLink.setAttribute('aria-current', 'page');
-                }
-            }
+    <section class="page-section" id="events-page">
+      <div class="section-shell">
+        <div class="text-center mb-5">
+          <div class="section-label">Expeditions</div>
+          <h2 class="section-headline">Choose Your Odyssey.</h2>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4">
+            <div class="challenge-card">
+              <div class="challenge-img-wrap">
+                <span class="challenge-pill">170 km</span>
+                <img alt="Everest Base Camp Trek" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop"/>
+              </div>
+              <div class="challenge-body">
+                <div>
+                  <h3 class="challenge-title">Everest Base Camp</h3>
+                  <p class="challenge-desc">Climb through high altitude trails to the roof of the world across 170 km of pure endurance.</p>
+                </div>
+                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="challenge-card">
+              <div class="challenge-img-wrap">
+                <span class="challenge-pill">100 km</span>
+                <img alt="Great Wall of China" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=600&auto=format&fit=crop"/>
+              </div>
+              <div class="challenge-body">
+                <div>
+                  <h3 class="challenge-title">Great Wall of China</h3>
+                  <p class="challenge-desc">Traverse historic stone paths and mountain ridges through an ancient civilization marvel.</p>
+                </div>
+                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="challenge-card">
+              <div class="challenge-img-wrap">
+                <span class="challenge-pill">60 km</span>
+                <img alt="Mamallapuram Coastal Route" src="https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=600&auto=format&fit=crop"/>
+              </div>
+              <div class="challenge-body">
+                <div>
+                  <h3 class="challenge-title">Mamallapuram Coastal</h3>
+                  <p class="challenge-desc">Cycle or run scenic coastal highways beside the Bay of Bengal into historic stone temples.</p>
+                </div>
+                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="challenge-card">
+              <div class="challenge-img-wrap">
+                <span class="challenge-pill">50 km</span>
+                <img alt="Amazon Rainforest" src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=600&auto=format&fit=crop"/>
+              </div>
+              <div class="challenge-body">
+                <div>
+                  <h3 class="challenge-title">Amazon Rainforest</h3>
+                  <p class="challenge-desc">Immerse yourself along untamed river paths through lush biodiversity and wild rainforests.</p>
+                </div>
+                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="challenge-card">
+              <div class="challenge-img-wrap">
+                <span class="challenge-pill">200 km</span>
+                <img alt="Sahara Desert Crossing" src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=600&auto=format&fit=crop"/>
+              </div>
+              <div class="challenge-body">
+                <div>
+                  <h3 class="challenge-title">Sahara Desert Crossing</h3>
+                  <p class="challenge-desc">Brave rolling dunes and endless golden horizons on an extreme desert trek.</p>
+                </div>
+                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="challenge-card">
+              <div class="challenge-img-wrap">
+                <span class="challenge-pill">150 km</span>
+                <img alt="Norwegian Fjords" src="https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=600&auto=format&fit=crop"/>
+              </div>
+              <div class="challenge-body">
+                <div>
+                  <h3 class="challenge-title">Fjords of Norway</h3>
+                  <p class="challenge-desc">Paddle and navigate crystal-clear waters carved between monumental cliff landscapes.</p>
+                </div>
+                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="about-us">
+      <div class="section-shell text-center" style="max-width: 780px;">
+        <div class="hero-badge">Our Mission</div>
+        <h1 class="headline-large">Fitness made adventurous.</h1>
+        <p class="subhead-large" style="margin-bottom: 40px;">
+          Veeran Vitality was built on the conviction that fitness shouldn’t feel like a chore. By merging virtual storytelling, global communities, and rewarding milestones, we turn everyday movement into lifelong expeditions.
+        </p>
+        <div class="bento-item text-start p-4 mb-4">
+          <div class="bento-title">Have thoughts or questions?</div>
+          <p class="bento-desc mb-3">Our crew is always here to listen and help you reach your goals.</p>
+          <a href="mailto:support@veeranvitality.com" class="text-success fw-semibold">support@veeranvitality.com &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="login-page">
+      <div class="container">
+        <div class="auth-box">
+          <h2 class="auth-title">Welcome back.</h2>
+          <p class="text-center text-muted mb-4 font-small">Log in to view challenge milestones.</p>
+          <form onsubmit="event.preventDefault()">
+            <div class="mb-3">
+              <label class="form-label small text-muted" for="loginEmail">Email</label>
+              <input class="form-control apple-input" id="loginEmail" placeholder="name@apple.com" required="" type="email"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-muted" for="loginPassword">Password</label>
+              <input class="form-control apple-input" id="loginPassword" placeholder="••••••••" required="" type="password"/>
+            </div>
+            <div class="mb-4 form-check">
+              <input class="form-check-input bg-dark border-secondary" id="rememberMe" type="checkbox"/>
+              <label class="form-check-label small text-muted" for="rememberMe">Remember my device</label>
+            </div>
+            <button class="btn btn-apple-primary w-100 mb-3" type="submit">Sign In</button>
+          </form>
+          <div class="text-center small text-muted">
+            New here? <a href="#" class="text-white fw-semibold" onclick="showPage('signup-page')">Create an account</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="signup-page">
+      <div class="container">
+        <div class="auth-box">
+          <h2 class="auth-title">Join the expedition.</h2>
+          <p class="text-center text-muted mb-4">Start logging workouts and earning medals today.</p>
+          <form onsubmit="event.preventDefault()">
+            <div class="mb-3">
+              <label class="form-label small text-muted" for="signupName">Full Name</label>
+              <input class="form-control apple-input" id="signupName" placeholder="Alex Rivers" required="" type="text"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-muted" for="signupEmail">Email</label>
+              <input class="form-control apple-input" id="signupEmail" placeholder="name@apple.com" required="" type="email"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-muted" for="signupPassword">Password</label>
+              <input class="form-control apple-input" id="signupPassword" placeholder="Minimum 8 characters" required="" type="password"/>
+            </div>
+            <button class="btn btn-apple-primary w-100 mb-3" type="submit">Create Account</button>
+          </form>
+          <div class="text-center small text-muted">
+            Already registered? <a href="#" class="text-white fw-semibold" onclick="showPage('login-page')">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section text-center py-5" id="under-construction">
+      <div class="container py-5">
+        <div class="hero-badge"><i class="fa-solid fa-hammer"></i> Work In Progress</div>
+        <h2 class="section-headline">Coming Soon</h2>
+        <p class="subhead-large">We are currently perfecting this experience. Check back soon for exciting updates.</p>
+        <button class="btn btn-apple-secondary" onclick="showPage('home-page')">&larr; Return to Home</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-apple">
+    <div class="container">
+      <div class="row g-4 mb-5">
+        <div class="col-6 col-md-3">
+          <div class="footer-title">Explore</div>
+          <ul class="footer-links">
+            <li><a href="#" onclick="showPage('home-page')">Overview</a></li>
+            <li><a href="#" onclick="showPage('events-page')">All Challenges</a></li>
+            <li><a href="#" onclick="showPage('about-us')">Our Vision</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="footer-title">Account</div>
+          <ul class="footer-links">
+            <li><a href="#" onclick="showPage('login-page')">Sign In</a></li>
+            <li><a href="#" onclick="showPage('signup-page')">Register</a></li>
+            <li><a href="#" onclick="showPage('under-construction')">Sync Devices</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="footer-title">Legal</div>
+          <ul class="footer-links">
+            <li><a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Policy</a></li>
+            <li><a href="terms-of-service.pdf">Terms of Service</a></li>
+            <li><a href="#" onclick="showPage('under-construction')">Cookie Preferences</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="footer-title">Connect</div>
+          <div class="d-flex gap-3 mb-3">
+            <a href="#"><i class="fa-brands fa-x-twitter fs-6"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram fs-6"></i></a>
+            <a href="#"><i class="fa-brands fa-strava fs-6"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube fs-6"></i></a>
+          </div>
+          <p class="text-muted m-0">Designed for movers everywhere.</p>
+        </div>
+      </div>
+      <div class="border-top border-secondary pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2" style="--bs-border-opacity: .2;">
+        <div>Copyright &copy; 2026 Veeran Vitality Inc. All rights reserved.</div>
+        <div class="text-muted">Crafted with precision &amp; performance.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('navbarNav');
+      const button = document.querySelector('.navbar-toggler');
+      const open = menu.classList.toggle('show');
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function showPage(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page-section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Show requested page
+      const activePage = document.getElementById(pageId) || document.getElementById('under-construction');
+      activePage.classList.add('active');
+
+      // Update Nav highlighting
+      document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+        if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(pageId)) {
+          link.classList.add('active');
+          link.setAttribute('aria-current', 'page');
         }
+      });
 
-        // Initialize with home page active on load
-        document.addEventListener('DOMContentLoaded', () => {
-            showPage('home-page');
-        });
-    </script>
+      // Close mobile menu if open
+      const nav = document.getElementById('navbarNav');
+      if (nav && nav.classList.contains('show')) {
+        toggleMenu();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showPage('home-page');
+    });
+  </script>
 </body>
 </html>

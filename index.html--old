@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Veeran Vitality &mdash; Move. Explore. Achieve.
+  </title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   :root{
+  --ink:#1d1d1f;
+  --muted:#6e6e73;
+  --bg:#f5f5f7;
+  --card:#fff;
+  --line:rgba(0,0,0,.08);
+  --green:#20a84a;
+  --green-dark:#147a34;
+  --dark:#050505;
+  --radius:28px;
+  --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none}
+.navbar-custom{
+  background:rgba(0,0,0,.82)!important;
+  backdrop-filter:saturate(180%) blur(18px);
+  -webkit-backdrop-filter:saturate(180%) blur(18px);
+  box-shadow:none!important;
+  padding:0;
+  min-height:52px;
+}
+.navbar-custom .container{max-width:var(--max)}
+.navbar-custom .navbar-brand{
+  color:#f5f5f7!important;
+  font-size:17px;
+  letter-spacing:-.02em;
+  font-weight:600;
+}
+.navbar-custom .nav-link{
+  color:#d2d2d7!important;
+  font-size:13px;
+  margin:0 5px;
+  padding:7px 10px!important;
+  border-radius:999px;
+  transition:.2s ease;
+}
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active{color:#fff!important;background:rgba(255,255,255,.09)}
+.navbar-custom .btn-outline-success{
+  border:1px solid rgba(255,255,255,.25)!important;
+  color:#fff!important;
+  background:transparent!important;
+}
+.navbar-custom .btn-outline-success:hover{background:#fff!important;color:#111!important}
+main{padding-top:52px}
+.page-section{display:none;padding:0!important}
+.page-section.active{display:block}
+.hero-section{
+  min-height:calc(100svh - 52px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:100px 24px;
+  border-radius:0!important;
+  box-shadow:none!important;
+  color:#fff;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(54,180,93,.34),transparent 38%),
+    linear-gradient(180deg,#17241b 0%,#050605 100%)!important;
+  position:relative;
+  overflow:hidden;
+}
+.hero-section:after{
+  content:"";
+  position:absolute;inset:auto -10% -45% -10%;height:70%;
+  background:radial-gradient(ellipse,rgba(32,168,74,.18),transparent 65%);
+  pointer-events:none;
+}
+.hero-section .container{position:relative;z-index:1}
+.hero-section h1{
+  font-size:clamp(3.2rem,8vw,7.5rem);
+  line-height:.94;
+  letter-spacing:-.065em;
+  font-weight:700;
+  max-width:1000px;
+  margin:0 auto 28px;
+  text-shadow:none;
+}
+.hero-section p{
+  color:#d2d2d7;
+  font-size:clamp(1rem,1.7vw,1.35rem);
+  max-width:720px;
+  margin:0 auto 36px;
+}
+.hero-section .btn-primary{
+  background:#fff!important;
+  border:0!important;
+  color:#111!important;
+  border-radius:999px;
+  padding:14px 24px;
+  font-size:16px;
+  font-weight:600;
+  transition:transform .2s ease,opacity .2s ease;
+}
+.hero-section .btn-primary:hover{transform:scale(1.035);opacity:.92;box-shadow:none}
+.section-title{
+  font-size:clamp(2.5rem,6vw,5rem);
+  line-height:1;
+  letter-spacing:-.055em;
+  font-weight:700;
+  margin:0 0 44px;
+  color:var(--ink);
+  text-align:left;
+}
+#home-page>.container{max-width:var(--max);padding:100px 24px}
+.scrollable-cards-container{overflow:visible;padding:0}
+.scrollable-cards-row{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:14px;
+  padding:0;
+}
+.info-card-wrapper{width:auto!important}
+.info-card{
+  min-height:360px;
+  border:0!important;
+  border-radius:var(--radius)!important;
+  background:var(--card)!important;
+  box-shadow:none!important;
+  overflow:hidden;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.info-card:hover{transform:translateY(-6px)!important;box-shadow:none!important}
+.info-card:before{display:none}
+.info-card img{height:185px!important;border-radius:0!important}
+.info-card .card-body{padding:24px}
+.info-card .card-title{font-size:21px;font-weight:600;letter-spacing:-.02em}
+.info-card .card-text{font-size:15px;color:var(--muted)}
+#events-page,#about-us,#login-page,#signup-page,#under-construction{padding:100px 24px!important}
+#events-page .container,#about-us .container,#login-page .container,#signup-page .container,#under-construction .container{max-width:var(--max)}
+.event-card{
+  border:0!important;border-radius:var(--radius)!important;
+  background:#fff!important;box-shadow:none!important;overflow:hidden;
+  height:100%;transition:transform .3s ease;
+}
+.event-card:hover{transform:translateY(-6px)!important;box-shadow:none!important}
+.event-card img{height:260px!important;border-radius:0!important}
+.event-card .card-body{padding:28px}
+.event-card .card-title{font-size:25px;letter-spacing:-.025em}
+.event-card .card-text{color:var(--muted);font-size:15px}
+.event-card .btn-info{
+  background:#111!important;border:0!important;color:#fff!important;
+  border-radius:999px!important;padding:10px 17px!important;
+}
+.auth-card{
+  border:0!important;border-radius:var(--radius)!important;
+  box-shadow:none!important;background:#fff!important;
+  padding:42px!important;max-width:500px;margin:20px auto;
+}
+.auth-card .card-title{font-size:34px;letter-spacing:-.04em}
+.auth-card .form-control{
+  border:1px solid #d2d2d7;border-radius:12px;padding:13px 14px;
+}
+.auth-card .form-control:focus{border-color:#111;box-shadow:0 0 0 3px rgba(0,0,0,.08)}
+.auth-card .btn-primary{
+  background:#111!important;border:0!important;border-radius:999px!important;
+}
+.footer-custom{
+  background:#050505!important;color:#86868b!important;
+  border-radius:0!important;box-shadow:none!important;padding:60px 24px 30px;
+}
+.footer-custom .container{max-width:var(--max)}
+.footer-custom h5{color:#f5f5f7;font-size:15px}
+.footer-custom ul li{margin-bottom:8px}
+.footer-custom ul li a,.footer-custom .social-icons a{color:#86868b}
+.footer-custom ul li a:hover,.footer-custom .social-icons a:hover{color:#fff}
+.footer-custom .copyright{border-color:#2c2c2e;margin-top:35px}
+@media(max-width:1050px){
+  .scrollable-cards-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:768px){
+  .navbar-custom .navbar-collapse{padding:10px 0 15px}
+  .navbar-custom .nav-link{margin:2px 0}
+  .hero-section{min-height:calc(100svh - 52px);padding:80px 20px}
+  .hero-section h1{font-size:clamp(3rem,15vw,5rem)}
+  #home-page>.container{padding:72px 20px}
+  .section-title{margin-bottom:28px}
+  .scrollable-cards-row{
+    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;padding-bottom:8px;
+  }
+  .scrollable-cards-row::-webkit-scrollbar{display:none}
+  .info-card-wrapper{flex:0 0 82%;scroll-snap-align:start}
+  .info-card{min-height:340px}
+  #events-page,#about-us,#login-page,#signup-page,#under-construction{padding:72px 20px!important}
+  .event-card img{height:220px!important}
+  .auth-card{padding:28px!important}
+  .footer-custom{padding:48px 20px 24px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;transition:none!important}
+}
+
+    
+.navbar-toggler{border:1px solid rgba(255,255,255,.25)!important;border-radius:9px}
+@media(max-width:991.98px){
+  .navbar-collapse{display:none}
+  .navbar-collapse.show{display:block}
+}
+  </style>
+ </head>
+ <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+   <div class="container">
+    <a class="navbar-brand" href="#" onclick="showPage('home-page')">
+     Veeran Vitality
+    </a>
+    <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" onclick="toggleMenu()" type="button">
+     <span class="navbar-toggler-icon">
+     </span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+     <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+       <a aria-current="page" class="nav-link active" href="#" onclick="showPage('home-page')">
+        Home
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="#" onclick="showPage('events-page')">
+        Events
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="#" onclick="showPage('about-us')">
+        About Us
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="#" onclick="showPage('under-construction')">
+        Contact
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link btn btn-outline-success" href="#" onclick="showPage('login-page')">
+        Login
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link btn btn-outline-success ms-lg-2" href="#" onclick="showPage('signup-page')">
+        Sign Up
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+  </nav>
+  <!-- Main Content Area -->
+  <main>
+   <!-- Home Page -->
+   <section class="page-section active" id="home-page">
+    <div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover;">
+     <div class="container">
+      <h1>
+       Conquer Your Next Adventure with Veeran Vitality
+      </h1>
+      <p>
+       Embark on virtual challenges that take you to the world's most breathtaking locations. Run, walk, cycle, or swim your way to incredible medals and unforgettable experiences.
+      </p>
+      <a class="btn btn-primary" href="#" onclick="showPage('events-page')">
+       Explore Challenges
+      </a>
+     </div>
+    </div>
+    <div class="container mt-5">
+     <h2 class="section-title">
+      Why Veeran Vitality?
+     </h2>
+     <div class="scrollable-cards-container">
+      <div class="row scrollable-cards-row">
+       <div class="info-card-wrapper">
+        <div class="card info-card">
+         <img alt="Virtual Journeys" class="card-img-top" src="https://placehold.co/300x150/17a2b8/ffffff?text=Global+Virtual+Journeys"/>
+         <div class="card-body">
+          <h5 class="card-title">
+           Virtual Journeys
+          </h5>
+          <p class="card-text">
+           Explore iconic routes from around the globe, right from your doorstep.
+          </p>
+         </div>
+        </div>
+       </div>
+       <div class="info-card-wrapper">
+        <div class="card info-card">
+         <img alt="Community Support" class="card-img-top" src="https://placehold.co/300x150/ffc107/ffffff?text=Supportive+Community"/>
+         <div class="card-body">
+          <h5 class="card-title">
+           Community Support
+          </h5>
+          <p class="card-text">
+           Join a thriving community of like-minded adventurers worldwide.
+          </p>
+         </div>
+        </div>
+       </div>
+       <div class="info-card-wrapper">
+        <div class="card info-card">
+         <img alt="Track Progress" class="card-img-top" src="https://placehold.co/300x150/007bff/ffffff?text=Track+Progress"/>
+         <div class="card-body">
+          <h5 class="card-title">
+           Track Your Progress
+          </h5>
+          <p class="card-text">
+           Seamlessly log your activities and watch your virtual journey unfold.
+          </p>
+         </div>
+        </div>
+       </div>
+       <div class="info-card-wrapper">
+        <div class="card info-card">
+         <img alt="Sync your device" class="card-img-top" src="https://placehold.co/300x150/dc3545/ffffff?text=Sync+your+device"/>
+         <div class="card-body">
+          <h5 class="card-title">
+           Sync your device
+          </h5>
+          <p class="card-text">
+           Sync your sports/smart watches as well as workout apps and sync workouts
+          </p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="page-section" id="about-us">
+    <div class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) no-repeat center center/cover;">
+     <div class="container">
+      We founded VeeranVitality to make workouts fun
+      <br/>
+      If you want to share feedback contact us @ support@veeranvitality.com
+      <br/>
+     </div>
+    </div>
+   </section>
+   <!-- Login Page -->
+   <section class="page-section" id="login-page">
+    <div class="container">
+     <div class="card auth-card">
+      <h2 class="card-title text-center mb-4">
+       Login to Your Account
+      </h2>
+      <form>
+       <div class="mb-3">
+        <label class="form-label" for="loginEmail">
+         Email address
+        </label>
+        <input class="form-control" id="loginEmail" placeholder="name@example.com" required="" type="email"/>
+       </div>
+       <div class="mb-3">
+        <label class="form-label" for="loginPassword">
+         Password
+        </label>
+        <input class="form-control" id="loginPassword" placeholder="Password" required="" type="password"/>
+       </div>
+       <div class="mb-3 form-check">
+        <input class="form-check-input" id="rememberMe" type="checkbox"/>
+        <label class="form-check-label" for="rememberMe">
+         Remember me
+        </label>
+       </div>
+       <button class="btn btn-primary" disabled="" type="submit">
+        Login
+       </button>
+      </form>
+      <p class="text-center mt-3">
+       Don't have an account?
+       <a href="#" onclick="showPage('signup-page')">
+        Sign Up
+       </a>
+      </p>
+     </div>
+    </div>
+   </section>
+   <!-- Sign Up Page -->
+   <section class="page-section" id="signup-page">
+    <div class="container">
+     <div class="card auth-card">
+      <h2 class="card-title text-center mb-4">
+       Create Your Account
+      </h2>
+      <form>
+       <div class="mb-3">
+        <label class="form-label" for="signupName">
+         Full Name
+        </label>
+        <input class="form-control" id="signupName" placeholder="John Doe" required="" type="text"/>
+       </div>
+       <div class="mb-3">
+        <label class="form-label" for="signupEmail">
+         Email address
+        </label>
+        <input class="form-control" id="signupEmail" placeholder="name@example.com" required="" type="email"/>
+       </div>
+       <div class="mb-3">
+        <label class="form-label" for="signupPassword">
+         Password
+        </label>
+        <input class="form-control" id="signupPassword" placeholder="Password" required="" type="password"/>
+        <div class="form-text">
+         Password must be at least 8 characters long.
+        </div>
+       </div>
+       <div class="mb-3">
+        <label class="form-label" for="confirmPassword">
+         Confirm Password
+        </label>
+        <input class="form-control" id="confirmPassword" placeholder="Confirm Password" required="" type="password"/>
+       </div>
+       <button class="btn btn-primary" disabled="" type="submit">
+        Sign Up
+       </button>
+      </form>
+      <p class="text-center mt-3">
+       Already have an account?
+       <a href="#" onclick="showPage('login-page')">
+        Login
+       </a>
+      </p>
+     </div>
+    </div>
+   </section>
+   <!-- Events Page -->
+   <section class="page-section" id="events-page">
+    <div class="container">
+     <h2 class="section-title">
+      Our Epic Challenges
+     </h2>
+     <div class="row g-4">
+      <!-- Event Card 1 -->
+      <div class="col-md-6 col-lg-4">
+       <div class="card event-card">
+        <img alt="Mount Everest Base Camp Challenge" class="card-img-top" src="https://placehold.co/400x200/28a745/ffffff?text=Everest+Base+Camp+Trek"/>
+        <div class="card-body">
+         <h5 class="card-title">
+          Everest Base Camp Trek
+         </h5>
+         <p class="card-text">
+          Conquer the legendary trek to Everest Base Camp, 170km of pure adventure!
+         </p>
+         <a class="btn btn-info" href="#">
+          View Details
+         </a>
+        </div>
+       </div>
+      </div>
+      <!-- Event Card 2 -->
+      <div class="col-md-6 col-lg-4">
+       <div class="card event-card">
+        <img alt="Great Wall of China Challenge" class="card-img-top" src="https://placehold.co/400x200/17a2b8/ffffff?text=Great+Wall+of+China+Run"/>
+        <div class="card-body">
+         <h5 class="card-title">
+          Great Wall of China
+         </h5>
+         <p class="card-text">
+          Walk the historic Great Wall, a 100km journey through ancient wonders.
+         </p>
+         <a class="btn btn-info" href="#">
+          View Details
+         </a>
+        </div>
+       </div>
+      </div>
+      <!-- Event Card 3 -->
+      <div class="col-md-6 col-lg-4">
+       <div class="card event-card">
+        <img alt="Route 66 USA Challenge" class="card-img-top" src="https://placehold.co/400x200/ffc107/ffffff?text=Route+66+Cycling"/>
+        <div class="card-body">
+         <h5 class="card-title">
+          Mamallapuram
+         </h5>
+         <p class="card-text">
+          Cycle or run the iconic Route from Chennai to Mamallapuram
+         </p>
+         <a class="btn btn-info" href="#">
+          View Details
+         </a>
+        </div>
+       </div>
+      </div>
+      <!-- Event Card 4 -->
+      <div class="col-md-6 col-lg-4">
+       <div class="card event-card">
+        <img alt="Amazon Rainforest Challenge" class="card-img-top" src="https://placehold.co/400x200/dc3545/ffffff?text=Amazon+Jungle+Trek"/>
+        <div class="card-body">
+         <h5 class="card-title">
+          Amazon Rainforest Trek
+         </h5>
+         <p class="card-text">
+          Immerse yourself in the Amazon, a 50km trek through lush wilderness.
+         </p>
+         <a class="btn btn-info" href="#">
+          View Details
+         </a>
+        </div>
+       </div>
+      </div>
+      <!-- Event Card 5 -->
+      <div class="col-md-6 col-lg-4">
+       <div class="card event-card">
+        <img alt="Sahara Desert Challenge" class="card-img-top" src="https://placehold.co/400x200/6c757d/ffffff?text=Sahara+Desert+Run"/>
+        <div class="card-body">
+         <h5 class="card-title">
+          Sahara Desert Crossing
+         </h5>
+         <p class="card-text">
+          Brave the vast Sahara, a 200km endurance challenge across dunes.
+         </p>
+         <a class="btn btn-info" href="#">
+          View Details
+         </a>
+        </div>
+       </div>
+      </div>
+      <!-- Event Card 6 -->
+      <div class="col-md-6 col-lg-4">
+       <div class="card event-card">
+        <img alt="Fjords of Norway Challenge" class="card-img-top" src="https://placehold.co/400x200/007bff/ffffff?text=Norway+Fjords+Kayak"/>
+        <div class="card-body">
+         <h5 class="card-title">
+          Fjords of Norway Kayak
+         </h5>
+         <p class="card-text">
+          Paddle through the stunning Norwegian Fjords, a 150km scenic journey.
+         </p>
+         <a class="btn btn-info" href="#">
+          View Details
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <!-- Under Construction Page -->
+   <section class="page-section text-center py-5" id="under-construction">
+    <div class="container">
+     <h2 class="section-title text-warning">
+      Page Under Construction!
+     </h2>
+     <p class="lead">
+      We're working hard to bring you this content. Please check back later!
+     </p>
+     <img alt="Under Construction" class="img-fluid rounded-3 mt-4" src="https://placehold.co/400x300/ffc107/333333?text=Under+Construction"/>
+     <p class="mt-4">
+      <a href="#" onclick="showPage('home-page')">
+       Go back to Home
+      </a>
+     </p>
+    </div>
+   </section>
+  </main>
+  <!-- Footer -->
+  <footer class="footer-custom mt-auto">
+   <div class="container">
+    <div class="row">
+     <div class="col-md-3">
+      <h5>
+       Veeran Vitality
+      </h5>
+      <p>
+       Embark on virtual challenges and earn incredible medals.
+      </p>
+     </div>
+     <div class="col-md-3">
+      <h5>
+       Quick Links
+      </h5>
+      <ul class="list-unstyled">
+       <li>
+        <a href="#" onclick="showPage('home-page')">
+         Home
+        </a>
+       </li>
+       <li>
+        <a href="#" onclick="showPage('events-page')">
+         Events
+        </a>
+       </li>
+       <li>
+        <a href="#" onclick="showPage('about-us')">
+         About Us
+        </a>
+       </li>
+       <li>
+        <a href="#" onclick="showPage('under-construction')">
+         Contact
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="col-md-3">
+      <h5>
+       Legal
+      </h5>
+      <ul class="list-unstyled">
+       <li>
+        <a href="Veeran-Vitality-Privacy-notice.pdf">
+         Privacy Statement
+        </a>
+       </li>
+       <li>
+        <a href="terms-of-service.pdf">
+         Terms &amp; Conditions
+        </a>
+       </li>
+       <li>
+        <a href="#" onclick="showPage('under-construction')">
+         Cookie Policy
+        </a>
+       </li>
+      </ul>
+     </div>
+     <div class="col-md-3">
+      <h5>
+       Connect With Us
+      </h5>
+      <div class="social-icons">
+       <a href="#">
+        <i class="fab fa-facebook-f">
+        </i>
+       </a>
+       <a href="#">
+        <i class="fab fa-twitter">
+        </i>
+       </a>
+       <a href="#">
+        <i class="fab fa-instagram">
+        </i>
+       </a>
+       <a href="#">
+        <i class="fab fa-youtube">
+        </i>
+       </a>
+      </div>
+      <ul class="list-unstyled mt-3">
+       <li>
+        <a href="#" onclick="showPage('under-construction')">
+         Careers
+        </a>
+       </li>
+       <li>
+        <a href="#" onclick="showPage('under-construction')">
+         FAQ
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="row">
+     <div class="col-12 text-center copyright">
+      &copy; 2025 Veeran Vitality. All rights reserved.
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script>
+   // JavaScript for page navigation simulation
+        function toggleMenu() {
+  const menu = document.getElementById('navbarNav');
+  const button = document.querySelector('.navbar-toggler');
+  const open = menu.classList.toggle('show');
+  button.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function showPage(pageId) {
+            // Hide all page sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the requested page section or "under construction"
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.add('active');
+            } else {
+                // If pageId doesn't match a defined section, show "under-construction"
+                document.getElementById('under-construction').classList.add('active');
+            }
+
+
+            // Update active state in navbar
+            document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+                link.classList.remove('active');
+                link.removeAttribute('aria-current');
+            });
+
+            // Set active class for the clicked link (only for actual pages)
+            if (pageId !== 'under-construction') {
+                const clickedLink = document.querySelector(`.navbar-nav .nav-link[onclick*="${pageId}"]`);
+                if (clickedLink) {
+                    clickedLink.classList.add('active');
+                    clickedLink.setAttribute('aria-current', 'page');
+                }
+            }
+        }
+
+        // Initialize with home page active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home-page');
+        });
+  </script>
+  <script>
+   function toggleMenu() {
+  const menu = document.getElementById('navbarNav');
+  const button = document.querySelector('.navbar-toggler');
+  const open = menu.classList.toggle('show');
+  button.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function showPage(pageId) {
+  document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
+  const activePage = document.getElementById(pageId) || document.getElementById('under-construction');
+  activePage.classList.add('active');
+
+  document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+    link.classList.remove('active');
+    link.removeAttribute('aria-current');
+    if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(pageId)) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+
+  const nav = document.getElementById('navbarNav');
+  if (nav && nav.classList.contains('show')) {
+    const toggler = document.querySelector('.navbar-toggler');
+    toggler?.click();
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.addEventListener('DOMContentLoaded', () => showPage('home-page'));
+  </script>
+ </body>
+</html>

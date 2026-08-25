@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Veeran Vitality — Chennai to Mamallapuram</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --ink: #1d1d1f;
+            --muted: #6e6e73;
+            --bg: #f5f5f7;
+            --card: #ffffff;
+            --green: #20a84a;
+            --dark: #050505;
+            --line: rgba(0, 0, 0, 0.08);
+            --radius: 28px;
+            --max: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        .navbar-custom {
+            min-height: 52px;
+            padding: 0;
+            background: rgba(0, 0, 0, 0.82) !important;
+            backdrop-filter: saturate(180%) blur(18px);
+            -webkit-backdrop-filter: saturate(180%) blur(18px);
+        }
+
+        .navbar-custom .container {
+            max-width: var(--max);
+        }
+
+        .navbar-custom .navbar-brand {
+            color: #f5f5f7 !important;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .navbar-custom .nav-link {
+            color: #d2d2d7 !important;
+            font-size: 13px;
+            margin: 0 5px;
+            padding: 7px 10px !important;
+            border-radius: 999px;
+            transition: 0.2s ease;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        /* Page */
+        main {
+            padding-top: 52px;
+        }
+
+        .route-page {
+            min-height: calc(100vh - 52px);
+            padding: 72px 24px 90px;
+        }
+
+        .route-container {
+            max-width: var(--max);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .route-header {
+            max-width: 850px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin-bottom: 14px;
+            color: var(--green-dark, #147a34);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .route-header h1 {
+            margin: 0 0 20px;
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 0.95;
+            font-weight: 700;
+            letter-spacing: -0.065em;
+        }
+
+        .route-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.7vw, 1.25rem);
+        }
+
+        /* Route summary */
+        .route-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .route-point {
+            padding: 22px 24px;
+            background: var(--card);
+            border-radius: var(--radius);
+        }
+
+        .route-point .label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .route-point strong {
+            display: block;
+            font-size: 18px;
+            letter-spacing: -0.02em;
+        }
+
+        /* Map */
+        .map-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 620px;
+            background: #e5e5e5;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        #map {
+            width: 100%;
+            height: 620px;
+        }
+
+        .map-overlay {
+            position: absolute;
+            z-index: 2;
+            left: 20px;
+            top: 20px;
+            max-width: 330px;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(15px);
+        }
+
+        .map-overlay h2 {
+            margin: 0 0 5px;
+            font-size: 17px;
+            font-weight: 650;
+        }
+
+        .map-overlay p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* Directions */
+        .directions-card {
+            margin-top: 18px;
+            padding: 30px;
+            background: var(--card);
+            border-radius: var(--radius);
+        }
+
+        .directions-card h2 {
+            margin-bottom: 18px;
+            font-size: 28px;
+            font-weight: 650;
+            letter-spacing: -0.035em;
+        }
+
+        #directions-panel {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .leg {
+            padding: 15px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .leg:first-child {
+            border-top: 0;
+        }
+
+        .leg strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--ink);
+        }
+
+        .error-message {
+            display: none;
+            margin-top: 18px;
+            padding: 16px 18px;
+            color: #8a1c1c;
+            background: #fff1f1;
+            border-radius: 14px;
+        }
+
+        /* Footer */
+        .footer-custom {
+            padding: 45px 24px 25px;
+            color: #86868b;
+            background: var(--dark);
+        }
+
+        .footer-custom .container {
+            max-width: var(--max);
+        }
+
+        .footer-custom h5 {
+            color: #f5f5f7;
+            font-size: 15px;
+        }
+
+        .footer-custom p {
+            font-size: 13px;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #2c2c2e;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .route-page {
+                padding: 55px 16px 65px;
+            }
+
+            .route-header {
+                margin-bottom: 28px;
+            }
+
+            .route-header h1 {
+                font-size: clamp(3rem, 15vw, 5rem);
+            }
+
+            .route-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .route-point {
+                padding: 18px 20px;
+            }
+
+            .map-card {
+                min-height: 500px;
+                border-radius: 22px;
+            }
+
+            #map {
+                height: 500px;
+            }
+
+            .map-overlay {
+                left: 12px;
+                right: 12px;
+                top: 12px;
+                max-width: none;
+            }
+
+            .directions-card {
+                padding: 22px;
+                border-radius: 22px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                Veeran Vitality
+            </a>
+
+            <a
+                class="nav-link ms-auto"
+                href="index.html"
+                style="color:#d2d2d7 !important;"
+            >
+                Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Route Page -->
+        <section class="route-page">
+            <div class="route-container">
+
+                <!-- Header -->
+                <header class="route-header">
+                    <div class="eyebrow">
+                        Veeran Vitality Challenge
+                    </div>
+
+                    <h1>
+                        Chennai to<br>
+                        Mamallapuram.
+                    </h1>
+
+                    <p>
+                        A virtual adventure route beginning at Anna Centenary
+                        Library, passing through Sholinganallur, and finishing
+                        at the historic town of Mamallapuram.
+                    </p>
+                </header>
+
+                <!-- Route Summary -->
+                <div class="route-summary">
+
+                    <div class="route-point">
+                        <span class="label">Start</span>
+                        <strong>Anna Centenary Library</strong>
+                    </div>
+
+                    <div class="route-point">
+                        <span class="label">Via</span>
+                        <strong>Sholinganallur</strong>
+                    </div>
+
+                    <div class="route-point">
+                        <span class="label">Finish</span>
+                        <strong>Mamallapuram</strong>
+                    </div>
+
+                </div>
+
+                <!-- Google Map -->
+                <div class="map-card">
+
+                    <div class="map-overlay">
+                        <h2>
+                            <i class="fas fa-route"></i>
+                            Chennai → Mamallapuram
+                        </h2>
+
+                        <p>
+                            Route via Sholinganallur
+                        </p>
+                    </div>
+
+                    <div id="map"></div>
+
+                </div>
+
+                <!-- Directions Summary -->
+                <div class="directions-card">
+
+                    <h2>
+                        Your route
+                    </h2>
+
+                    <div id="directions-panel">
+                        Calculating the route...
+                    </div>
+
+                    <div
+                        id="error-message"
+                        class="error-message"
+                    >
+                        Unable to calculate the route. Please check that your
+                        Google Maps API key is valid and that the Maps
+                        JavaScript API is enabled.
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+
+            <h5>
+                Veeran Vitality
+            </h5>
+
+            <p>
+                Move. Explore. Achieve.
+            </p>
+
+            <div class="copyright">
+                &copy; 2026 Veeran Vitality. All rights reserved.
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        /*
+         * Google Maps route configuration.
+         *
+         * The route is:
+         *
+         * Anna Centenary Library, Chennai
+         *              ↓
+         *       Sholinganallur
+         *              ↓
+         *         Mamallapuram
+         */
+
+        function initMap() {
+            const directionsService =
+                new google.maps.DirectionsService();
+
+            const directionsRenderer =
+                new google.maps.DirectionsRenderer({
+                    suppressMarkers: false,
+                    polylineOptions: {
+                        strokeColor: "#20a84a",
+                        strokeOpacity: 0.9,
+                        strokeWeight: 6
+                    }
+                });
+
+            const map = new google.maps.Map(
+                document.getElementById("map"),
+                {
+                    center: {
+                        lat: 12.85,
+                        lng: 80.22
+                    },
+                    zoom: 11,
+                    mapTypeControl: false,
+                    streetViewControl: false,
+                    fullscreenControl: true,
+                    gestureHandling: "greedy"
+                }
+            );
+
+            directionsRenderer.setMap(map);
+
+            calculateRoute(
+                directionsService,
+                directionsRenderer
+            );
+        }
+
+        function calculateRoute(
+            directionsService,
+            directionsRenderer
+        ) {
+            const request = {
+                origin:
+                    "Anna Centenary Library, Kotturpuram, Chennai, Tamil Nadu, India",
+
+                destination:
+                    "Mamallapuram, Tamil Nadu, India",
+
+                waypoints: [
+                    {
+                        location:
+                            "Sholinganallur, Chennai, Tamil Nadu, India",
+                        stopover: true
+                    }
+                ],
+
+                /*
+                 * Keep the waypoint order exactly as specified.
+                 */
+                optimizeWaypoints: false,
+
+                travelMode:
+                    google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(
+                request,
+                function (response, status) {
+
+                    if (status === "OK") {
+
+                        directionsRenderer.setDirections(response);
+
+                        displayRouteSummary(response);
+
+                    } else {
+
+                        document.getElementById(
+                            "directions-panel"
+                        ).textContent =
+                            "Route could not be calculated.";
+
+                        document.getElementById(
+                            "error-message"
+                        ).style.display = "block";
+
+                        console.error(
+                            "Google Maps Directions error:",
+                            status
+                        );
+                    }
+                }
+            );
+        }
+
+        function displayRouteSummary(response) {
+
+            const route =
+                response.routes[0];
+
+            const panel =
+                document.getElementById(
+                    "directions-panel"
+                );
+
+            panel.innerHTML = "";
+
+            route.legs.forEach(
+                function (leg, index) {
+
+                    const legElement =
+                        document.createElement("div");
+
+                    legElement.className = "leg";
+
+                    legElement.innerHTML = `
+                        <strong>
+                            ${index + 1}. ${leg.start_address}
+                            → ${leg.end_address}
+                        </strong>
+                        <span>
+                            ${leg.distance.text}
+                            &nbsp; · &nbsp;
+                            ${leg.duration.text}
+                        </span>
+                    `;
+
+                    panel.appendChild(
+                        legElement
+                    );
+                }
+            );
+        }
+
+        window.initMap = initMap;
+    </script>
+
+    <!--
+        IMPORTANT:
+        Replace YOUR_GOOGLE_MAPS_API_KEY with your own Google Maps API key.
+
+        Enable:
+        - Maps JavaScript API
+        - Directions API / required Google Maps routing services
+
+        Restrict the key to your website's domain before deploying.
+    -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_bZwNDpDm3m5vuRsdnWFTd04dy0jV5G8&callback=initMap&v=weekly"
+        defer
+    ></script>
+
+</body>
+</html>
