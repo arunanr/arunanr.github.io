@@ -1,869 +1,1709 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Veeran Vitality — Move. Explore. Achieve.</title>
+  <meta name="description" content="Turn daily runs, walks and rides into cinematic virtual expeditions across legendary routes, and earn certificates when you finish."/>
+  <meta name="theme-color" content="#000000"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2330d158'/%3E%3Cstop offset='1' stop-color='%232997ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cpath d='M9 10l7 12 7-12' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"/>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 
   <style>
+    /* =========================================================
+       Design tokens
+       ========================================================= */
     :root {
-      --bg-dark: #000000;
-      --bg-surface: #0a0a0c;
-      --bg-card: rgba(22, 22, 26, 0.7);
-      --bg-card-hover: rgba(30, 30, 36, 0.85);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(255, 255, 255, 0.25);
-      --text-main: #f5f5f7;
-      --text-muted: #86868b;
-      --text-label: #d2d2d7;
-      --accent-green: #30d158;
-      --accent-glow: rgba(48, 209, 88, 0.35);
-      --accent-blue: #2997ff;
-      --radius-xl: 30px;
-      --radius-md: 20px;
-      --radius-pill: 980px;
-      --max-width: 1200px;
+      --bg: #000;
+      --bg-elev: #0b0b0d;
+      --tile: #121214;
+      --tile-hi: #1a1a1d;
+      --line: rgba(255, 255, 255, .08);
+      --line-hi: rgba(255, 255, 255, .16);
+      --text: #f5f5f7;
+      --text-2: #a1a1a6;
+      --text-3: #6e6e73;
+      --green: #30d158;
+      --cyan: #64d2ff;
+      --blue: #2997ff;
+      --link: #2997ff;
+      --grad: linear-gradient(90deg, #30d158 0%, #64d2ff 55%, #2997ff 100%);
+      --light: #f5f5f7;
+      --ink: #1d1d1f;
+      --ink-2: #6e6e73;
+      --r-xl: 28px;
+      --r-lg: 20px;
+      --r-md: 14px;
+      --pill: 980px;
+      --max: 1180px;
+      --gutter: clamp(16px, 4vw, 32px);
+      --nav-h: 48px;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      line-height: 1.5;
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -.011em;
+      background: var(--bg);
+      color: var(--text);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: clip;
     }
+    body.no-scroll { overflow: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    h1, h2, h3, h4, p { margin: 0; }
+    ::selection { background: rgba(48, 209, 88, .35); color: #fff; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
 
-    a { text-decoration: none; color: inherit; }
-
-    /* Ambient Background Glows */
-    .ambient-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 0;
-      filter: blur(80px);
-      pointer-events: none;
+    .skip {
+      position: absolute; left: 12px; top: -60px; z-index: 200;
+      background: var(--text); color: #000; padding: 10px 16px; border-radius: var(--pill);
+      font-size: 14px; font-weight: 600; transition: top .2s;
     }
+    .skip:focus { top: 8px; }
 
-    /* Apple-Style Ultra Nav */
-    .navbar-apple {
-      background: rgba(0, 0, 0, 0.75) !important;
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+    .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    .grad-text {
+      background: linear-gradient(90deg, #30d158, #64d2ff, #2997ff, #64d2ff, #30d158);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shine 10s linear infinite;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+
+    /* =========================================================
+       Global navigation
+       ========================================================= */
+    .gnav {
+      position: fixed; inset: 0 0 auto; z-index: 100;
+      height: var(--nav-h);
+      background: rgba(0, 0, 0, .55);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--border-subtle);
-      height: 54px;
-      transition: all 0.3s ease;
-      z-index: 1000;
+      border-bottom: 1px solid transparent;
+      transition: background .4s ease, border-color .4s ease;
     }
-    .navbar-apple .container { max-width: var(--max-width); }
-    .navbar-apple .navbar-brand {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #fff !important;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .gnav.is-scrolled, .gnav.is-open {
+      background: rgba(12, 12, 14, .8);
+      border-bottom-color: var(--line);
     }
-    .navbar-apple .nav-link {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted) !important;
-      padding: 6px 14px !important;
-      border-radius: var(--radius-pill);
-      transition: color 0.2s ease, opacity 0.2s ease;
-      letter-spacing: -0.01em;
+    .gnav__inner {
+      max-width: var(--max); height: 100%; margin: 0 auto; padding: 0 var(--gutter);
+      display: flex; align-items: center; gap: 24px;
     }
-    .navbar-apple .nav-link:hover,
-    .navbar-apple .nav-link.active {
-      color: #fff !important;
+    .brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 15px; font-weight: 600; letter-spacing: -.015em; color: var(--text);
     }
-    .btn-nav-action {
-      background: #fff !important;
-      color: #000 !important;
-      font-weight: 600 !important;
-      font-size: 13px !important;
-      padding: 6px 16px !important;
-      border-radius: var(--radius-pill) !important;
-      transition: transform 0.2s ease, opacity 0.2s ease !important;
+    .brand__logo { height: 22px; width: auto; transition: opacity .2s ease; }
+    .brand:hover .brand__logo { opacity: .85; }
+    .gnav__links { display: flex; gap: 2px; list-style: none; margin: 0 auto; padding: 0; }
+    .gnav__links a {
+      display: block; font-size: 12.5px; color: var(--text-2);
+      padding: 6px 13px; border-radius: var(--pill);
+      transition: color .2s ease, background .2s ease;
     }
-    .btn-nav-action:hover {
-      opacity: 0.9;
-      transform: scale(1.02);
-    }
+    .gnav__links a:hover { color: var(--text); }
+    .gnav__links a.is-active { color: var(--text); background: rgba(255, 255, 255, .09); }
+    .gnav__actions { display: flex; align-items: center; gap: 6px; }
+    .gnav__signin { font-size: 12.5px; color: var(--text-2); padding: 6px 10px; transition: color .2s; }
+    .gnav__signin:hover, .gnav__signin.is-active { color: var(--text); }
 
-    main { padding-top: 54px; min-height: 80vh; }
+    .gnav__burger {
+      display: none; margin-left: auto; width: 40px; height: 40px; margin-right: -10px;
+      background: none; border: 0; cursor: pointer; position: relative; color: var(--text);
+    }
+    .gnav__burger span {
+      position: absolute; left: 11px; width: 18px; height: 1.5px; background: currentColor; border-radius: 2px;
+      transition: transform .4s var(--ease);
+    }
+    .gnav__burger span:first-child { top: 16px; }
+    .gnav__burger span:last-child { top: 23px; }
+    .gnav__burger.is-open span:first-child { transform: translateY(3.5px) rotate(45deg); }
+    .gnav__burger.is-open span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+    .mnav {
+      position: fixed; inset: var(--nav-h) 0 0; z-index: 99;
+      background: rgba(0, 0, 0, .92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      padding: 20px var(--gutter) 40px; overflow-y: auto;
+      opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s;
+    }
+    .mnav.is-open { opacity: 1; visibility: visible; }
+    .mnav ul { list-style: none; margin: 0; padding: 0; }
+    .mnav a.mnav__link {
+      display: block; font-size: 30px; font-weight: 600; letter-spacing: -.03em; padding: 6px 0; color: var(--text-2);
+      opacity: 0; transform: translateY(-10px);
+      transition: opacity .5s var(--ease), transform .5s var(--ease), color .2s;
+      transition-delay: calc(var(--i, 0) * 45ms);
+    }
+    .mnav a.mnav__link.is-active { color: var(--text); }
+    .mnav.is-open a.mnav__link { opacity: 1; transform: none; }
+    .mnav__actions { display: flex; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+
+    @media (max-width: 833px) {
+      .gnav__links, .gnav__actions { display: none; }
+      .gnav__burger { display: block; }
+    }
+    @media (min-width: 834px) { .mnav { display: none; } }
+
+    /* =========================================================
+       Buttons & links
+       ========================================================= */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 17px; font-weight: 500; letter-spacing: -.015em;
+      padding: 12px 24px; border-radius: var(--pill); border: 0; cursor: pointer; white-space: nowrap;
+      transition: transform .25s var(--ease), background .25s ease, box-shadow .35s ease, color .25s ease;
+    }
+    .btn--primary { background: var(--green); color: #000; }
+    .btn--primary:hover { background: #4ae06f; transform: translateY(-1px); box-shadow: 0 10px 32px -10px rgba(48, 209, 88, .7); }
+    .btn--light { background: var(--text); color: #000; }
+    .btn--light:hover { background: #fff; }
+    .btn--ghost { background: rgba(255, 255, 255, .07); color: var(--text); box-shadow: inset 0 0 0 1px var(--line-hi); }
+    .btn--ghost:hover { background: rgba(255, 255, 255, .13); }
+    .btn--sm { font-size: 12.5px; font-weight: 600; padding: 6px 14px; }
+    .btn--md { font-size: 15px; padding: 10px 20px; }
+    .btn--block { width: 100%; padding-top: 15px; padding-bottom: 15px; }
+
+    .link {
+      display: inline-flex; align-items: center; gap: 2px;
+      color: var(--link); font-size: 17px; letter-spacing: -.015em;
+    }
+    .link::after {
+      content: "\203A"; font-size: 1.35em; line-height: 1; margin-top: -2px;
+      transition: transform .3s var(--ease);
+    }
+    .link:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .link:hover::after { transform: translateX(3px); }
+    .section--light .link { color: #0066cc; }
+
+    /* =========================================================
+       Pages & motion
+       ========================================================= */
+    main { padding-top: var(--nav-h); min-height: 80vh; overflow-x: clip; }
     .page-section { display: none; }
-    .page-section.active { display: block; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .page-section.active { display: block; animation: pageIn .7s var(--ease); }
+    @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    .js .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 1.1s var(--ease), transform 1.1s var(--ease);
+      transition-delay: var(--d, 0s);
     }
+    .js .reveal.is-in { opacity: 1; transform: none; }
 
-    /* Typography Hierarchy */
-    .headline-large {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 800;
-      letter-spacing: -0.045em;
-      line-height: 1.04;
-      background: linear-gradient(180deg, #FFFFFF 40%, rgba(255, 255, 255, 0.6) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 24px;
-    }
-    .subhead-large {
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      font-weight: 400;
-      color: var(--text-muted);
-      letter-spacing: -0.02em;
-      line-height: 1.45;
-      max-width: 680px;
-      margin: 0 auto 36px;
+    .js .tile.reveal {
+      transition: opacity 1.1s var(--ease), transform 1.1s var(--ease), box-shadow .4s ease;
+      transition-delay: var(--d, 0s), var(--d, 0s), 0s;
     }
 
-    /* Hero Section */
-    .hero-container {
-      position: relative;
-      padding: 130px 24px 100px;
-      text-align: center;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent-green);
-      background: rgba(48, 209, 88, 0.12);
-      border: 1px solid rgba(48, 209, 88, 0.25);
-      border-radius: var(--radius-pill);
-      padding: 5px 14px;
-      margin-bottom: 24px;
-    }
-    .cta-group {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .btn-apple-primary {
-      background: #0071e3;
-      color: #fff;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 12px 28px;
-      border-radius: var(--radius-pill);
-      border: none;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .btn-apple-primary:hover {
-      background: #0077ED;
-      transform: scale(1.03);
-      color: #fff;
-    }
-    .btn-apple-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-weight: 500;
-      font-size: 16px;
-      padding: 12px 26px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--border-subtle);
-      backdrop-filter: blur(10px);
-      transition: all 0.2s ease;
-    }
-    .btn-apple-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
+    .rise { animation: rise 1.1s var(--ease) var(--d, 0s) backwards; }
+    .grad-text.rise { animation: rise 1.1s var(--ease) var(--d, 0s) backwards, shine 10s linear infinite; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(28px); filter: blur(10px); }
+      to { opacity: 1; transform: none; filter: blur(0); }
     }
 
-    /* Bento Grid Section */
-    .section-shell {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 80px 24px;
+    /* =========================================================
+       Shared section typography
+       ========================================================= */
+    .section { padding: clamp(88px, 12vw, 160px) 0; position: relative; }
+    .section--light { background: var(--light); color: var(--ink); }
+    .section-head { margin-bottom: clamp(40px, 6vw, 72px); }
+    .section-head--row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .eyebrow {
+      display: block; font-size: clamp(17px, 1.7vw, 21px); font-weight: 600; letter-spacing: -.015em;
+      color: var(--green); margin-bottom: 10px;
     }
-    .section-label {
-      color: var(--accent-green);
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
+    .section--light .eyebrow { color: #1a9c3e; }
+    .h2 {
+      font-size: clamp(40px, 6.2vw, 80px); font-weight: 700; letter-spacing: -.045em; line-height: 1.03;
     }
-    .section-headline {
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 48px;
-      color: #fff;
+    .h2 .muted { color: var(--text-3); }
+    .section--light .h2 .muted { color: #86868b; }
+    .lede { font-size: clamp(19px, 2vw, 24px); color: var(--text-2); line-height: 1.4; letter-spacing: -.02em; max-width: 680px; margin-top: 20px; }
+
+    /* =========================================================
+       Hero
+       ========================================================= */
+    .hero {
+      position: relative; isolation: isolate; text-align: center;
+      padding: clamp(64px, 11vh, 132px) var(--gutter) 40px;
+    }
+    .hero__aurora {
+      position: absolute; inset: -30% -10% -10%; z-index: -2; pointer-events: none;
+      background:
+        radial-gradient(38% 45% at 28% 32%, rgba(48, 209, 88, .30), transparent 70%),
+        radial-gradient(34% 42% at 72% 26%, rgba(41, 151, 255, .26), transparent 70%),
+        radial-gradient(30% 36% at 50% 62%, rgba(100, 210, 255, .14), transparent 70%);
+      filter: blur(30px);
+      animation: aurora 18s ease-in-out infinite alternate;
+    }
+    @keyframes aurora {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(3%, -2%, 0) scale(1.08); }
+      100% { transform: translate3d(-3%, 2%, 0) scale(1.02); }
+    }
+    .hero::after {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 30%, #000 20%, transparent 75%);
+      mask-image: radial-gradient(ellipse 60% 55% at 50% 30%, #000 20%, transparent 75%);
+    }
+    .pill-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 13px; font-weight: 500; color: var(--text-2);
+      padding: 5px 14px 5px 5px; border-radius: var(--pill);
+      background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px var(--line-hi);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .pill-tag b {
+      background: var(--grad); color: #000; font-size: 11px; font-weight: 700;
+      padding: 3px 9px; border-radius: var(--pill); letter-spacing: .02em;
+    }
+    .hero__title {
+      font-size: clamp(46px, 8.6vw, 108px); font-weight: 700; letter-spacing: -.05em; line-height: 1;
+      margin: 26px auto 22px;
+    }
+    .hero__title .line { display: block; }
+    .hero__title .line + .line { padding-bottom: .06em; }
+    .hero__sub {
+      max-width: 640px; margin: 0 auto 34px;
+      font-size: clamp(18px, 2.1vw, 22px); color: var(--text-2); line-height: 1.42; letter-spacing: -.02em;
+    }
+    .hero__ctas { display: flex; gap: 14px 28px; justify-content: center; align-items: center; flex-wrap: wrap; }
+
+    /* Showcase visual */
+    .showcase { padding: 32px var(--gutter) 0; }
+    .showcase__frame {
+      --p: 0;
+      position: relative; max-width: var(--max); margin: 0 auto; aspect-ratio: 2 / 1; overflow: hidden;
+      border-radius: calc(var(--r-xl) + 14px * (1 - var(--p)));
+      transform: scale(calc(.9 + .1 * var(--p)));
+      transform-origin: 50% 0;
+      box-shadow: inset 0 0 0 1px var(--line-hi), 0 50px 140px -50px rgba(48, 209, 88, .45);
+      background: #0b0d10;
+      will-change: transform;
+    }
+    .showcase__img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transform: scale(calc(1.14 - .14 * var(--p)));
+    }
+    .showcase__frame::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, .7) 100%);
+    }
+    .showcase__route { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+    .route-base { fill: none; stroke: rgba(255, 255, 255, .45); stroke-width: 2.5; stroke-dasharray: 2 10; stroke-linecap: round; }
+    .route-progress {
+      fill: none; stroke: url(#routeGrad); stroke-width: 5; stroke-linecap: round;
+      stroke-dasharray: 100; stroke-dashoffset: 100;
+      filter: drop-shadow(0 0 8px rgba(48, 209, 88, .8));
+      transition: stroke-dashoffset 2.6s var(--ease) .3s;
+    }
+    .showcase.is-in .route-progress { stroke-dashoffset: 32; }
+    .route-dot { opacity: 0; transition: opacity .3s .3s; }
+    .showcase.is-in .route-dot { opacity: 1; }
+
+    .glass {
+      background: rgba(24, 24, 28, .55);
+      backdrop-filter: blur(24px) saturate(170%); -webkit-backdrop-filter: blur(24px) saturate(170%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14), 0 24px 60px -24px rgba(0, 0, 0, .7);
+      border-radius: 18px; color: var(--text);
+    }
+    .float {
+      position: absolute; z-index: 2; display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px 12px 12px; text-align: left;
+      opacity: 0; transform: translateY(18px) scale(.96);
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+      transition-delay: var(--d, 0s);
+      animation: bob 7s ease-in-out infinite; animation-delay: var(--bd, 0s);
+    }
+    .showcase.is-in .float { opacity: 1; transform: none; }
+    @keyframes bob { 50% { translate: 0 -8px; } }
+    .float__k { display: block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); }
+    .float__v { display: block; font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
+    .float__s { display: block; font-size: 12px; color: var(--text-2); }
+    .float__icon {
+      width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0;
+      font-size: 17px; color: #000; background: var(--grad);
+    }
+    .float--ring { left: 3.5%; top: 7%; --d: .5s; }
+    .float--stat { right: 3.5%; top: 30%; --d: .8s; --bd: -2s; }
+    .float--badge { left: 30%; bottom: 7%; --d: 1.1s; --bd: -4s; }
+    .ring { width: 52px; height: 52px; position: relative; flex-shrink: 0; }
+    .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .ring circle { fill: none; stroke-width: 5; }
+    .ring .ring__track { stroke: rgba(255, 255, 255, .14); }
+    .ring .ring__fill {
+      stroke: url(#ringGrad); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100;
+      transition: stroke-dashoffset 2.2s var(--ease) .7s;
+    }
+    .showcase.is-in .ring__fill { stroke-dashoffset: 32; }
+    .ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+
+    @media (max-width: 734px) {
+      .showcase__frame { aspect-ratio: 4 / 5; }
+      .showcase__img { object-position: 60% 50%; }
+      .float { padding: 10px 12px 10px 10px; gap: 10px; }
+      .float__v { font-size: 15px; }
+      .float--ring { left: 4%; top: 4%; }
+      .float--stat { right: 4%; top: 40%; }
+      .float--badge { left: 4%; bottom: 5%; }
+      .ring { width: 44px; height: 44px; }
+      .float__icon { width: 34px; height: 34px; font-size: 15px; }
     }
 
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
+    /* Stats */
+    .stats {
+      max-width: var(--max); margin: 0 auto; padding: clamp(64px, 9vw, 104px) var(--gutter) clamp(48px, 7vw, 80px);
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; text-align: center;
     }
-    .bento-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-xl);
-      padding: 36px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .bento-item:hover {
-      border-color: var(--border-focus);
-      background: var(--bg-card-hover);
-      transform: translateY(-4px);
-    }
-    .bento-col-7 { grid-column: span 7; }
-    .bento-col-5 { grid-column: span 5; }
-    .bento-col-4 { grid-column: span 4; }
-    .bento-col-6 { grid-column: span 6; }
-    .bento-col-12 { grid-column: span 12; }
+    .stat__num { font-size: clamp(44px, 5.6vw, 72px); font-weight: 700; letter-spacing: -.05em; line-height: 1; }
+    .stat__label { color: var(--text-2); font-size: 15px; margin-top: 10px; letter-spacing: -.01em; }
+    @media (max-width: 734px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stats { border-bottom: 1px solid var(--line); }
 
-    .bento-title {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-      color: #fff;
+    /* =========================================================
+       Bento grid
+       ========================================================= */
+    .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+    .tile {
+      position: relative; isolation: isolate; overflow: hidden;
+      background: var(--tile); border-radius: var(--r-xl);
+      box-shadow: inset 0 0 0 1px var(--line);
+      padding: clamp(26px, 3vw, 40px);
+      transition: box-shadow .4s ease, transform .6s var(--ease);
     }
-    .bento-desc {
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.5;
+    .tile::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, .075), transparent 42%);
+      opacity: 0; transition: opacity .4s ease;
     }
-    .bento-media {
-      margin-top: 24px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      width: 100%;
-      height: 200px;
-      background: #111;
-      border: 1px solid var(--border-subtle);
+    .tile:hover::before { opacity: 1; }
+    .tile:hover { box-shadow: inset 0 0 0 1px var(--line-hi); }
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+    .tile__icon {
+      width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; margin-bottom: 22px;
+      font-size: 20px; color: var(--green); background: rgba(48, 209, 88, .12);
+      box-shadow: inset 0 0 0 1px rgba(48, 209, 88, .22);
     }
-    .bento-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .bento-item:hover .bento-media img {
-      transform: scale(1.05);
-    }
-    .bento-icon {
-      font-size: 32px;
-      color: var(--accent-green);
-      margin-bottom: 20px;
-    }
+    .tile__title { font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; letter-spacing: -.035em; line-height: 1.08; margin-bottom: 12px; }
+    .tile__text { color: var(--text-2); font-size: 17px; line-height: 1.47; max-width: 46ch; }
 
-    /* Event Challenge Cards */
-    .challenge-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-xl);
-      overflow: hidden;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+    /* Journeys tile */
+    .tile--journeys { min-height: 560px; display: flex; flex-direction: column; }
+    .tile__bg {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3;
+      transition: transform 1.4s var(--ease);
     }
-    .challenge-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(255, 255, 255, 0.2);
+    .tile--journeys:hover .tile__bg { transform: scale(1.05); }
+    .tile--journeys::after {
+      content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .86) 0%, rgba(0, 0, 0, .3) 45%, rgba(0, 0, 0, .78) 100%);
     }
-    .challenge-img-wrap {
-      position: relative;
-      height: 220px;
-      overflow: hidden;
+    .tile--journeys .tile__text { color: #d2d2d7; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 32px; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 500; padding: 7px 13px; border-radius: var(--pill);
     }
-    .challenge-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .challenge-card:hover .challenge-img-wrap img {
-      transform: scale(1.06);
-    }
-    .challenge-pill {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 4px 12px;
-      border-radius: var(--radius-pill);
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-    }
-    .challenge-body {
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
-    .challenge-title {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-    .challenge-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
+    .tag i { color: var(--green); font-size: 11px; }
 
-    /* High-Contrast Apple Auth Card & Inputs */
-    .auth-box {
-      max-width: 460px;
-      margin: 40px auto;
-      background: rgba(18, 18, 22, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius-xl);
-      padding: 44px;
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+    /* Sync tile */
+    .tile--sync { display: flex; flex-direction: column; }
+    .orbit { position: relative; flex: 1; min-height: 230px; margin-top: 24px; display: grid; place-items: center; }
+    .orbit__ring {
+      position: absolute; left: 50%; top: 50%; border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, .14);
+      animation: spin var(--t, 20s) linear infinite;
     }
-    .auth-title {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-      text-align: center;
-      color: #ffffff;
+    .orbit__ring::after {
+      content: ""; position: absolute; top: -5px; left: calc(50% - 5px); width: 10px; height: 10px; border-radius: 50%;
+      background: var(--c, var(--green)); box-shadow: 0 0 14px 2px var(--c, var(--green));
     }
-    .auth-subhead {
-      font-size: 14px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-bottom: 32px;
+    .orbit__ring--1 { width: 128px; height: 128px; margin: -64px 0 0 -64px; --t: 14s; }
+    .orbit__ring--2 { width: 208px; height: 208px; margin: -104px 0 0 -104px; --t: 22s; --c: var(--cyan); animation-direction: reverse; }
+    .orbit__ring--3 { width: 290px; height: 290px; margin: -145px 0 0 -145px; --t: 34s; --c: var(--blue); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .orbit__core {
+      position: relative; width: 68px; height: 68px; border-radius: 20px;
+      display: grid; place-items: center; font-size: 28px; color: #000; background: var(--grad);
+      box-shadow: 0 0 0 10px rgba(48, 209, 88, .07), 0 0 70px rgba(48, 209, 88, .55);
     }
-    .form-label-apple {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-label);
-      margin-bottom: 6px;
-      display: inline-block;
-      letter-spacing: -0.01em;
+    .orbit__core::before, .orbit__core::after {
+      content: ""; position: absolute; inset: 0; border-radius: 22px;
+      border: 1px solid rgba(48, 209, 88, .55); animation: ping 2.8s var(--ease) infinite;
     }
-    .apple-input {
-      background: rgba(255, 255, 255, 0.08) !important;
-      border: 1px solid rgba(255, 255, 255, 0.16) !important;
-      border-radius: 12px !important;
-      padding: 13px 16px !important;
-      color: #ffffff !important;
-      font-size: 15px !important;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+    .orbit__core::after { animation-delay: 1.4s; }
+    @keyframes ping { from { transform: scale(1); opacity: .9; } to { transform: scale(2.4); opacity: 0; } }
+
+    .sync-brands { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .sync-chip {
+      --brand: #fff;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 13px 5px 5px; border-radius: var(--pill);
+      background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px var(--line);
+      font-size: 13px; font-weight: 600; letter-spacing: -.01em; color: #d2d2d7; white-space: nowrap;
+      transition: transform .35s var(--ease), box-shadow .35s ease, color .3s ease;
     }
-    .apple-input::placeholder {
-      color: rgba(255, 255, 255, 0.35) !important;
+    .sync-chip:hover { transform: translateY(-2px); color: #fff; box-shadow: inset 0 0 0 1px var(--brand), 0 8px 22px -8px var(--brand); }
+    .sync-logo {
+      width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--brand); flex-shrink: 0;
     }
-    .apple-input:focus {
-      background: rgba(255, 255, 255, 0.12) !important;
-      border-color: var(--accent-blue) !important;
-      box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.25) !important;
-      outline: none !important;
-      color: #ffffff !important;
+    .sync-logo svg { width: 13px; height: 13px; fill: #fff; }
+    .sync-chip.apple { --brand: #f5f5f7; }
+    .sync-chip.apple .sync-logo svg { fill: #000; margin-top: -1px; }
+    .sync-chip.garmin { --brand: #007cc3; }
+    .sync-chip.garmin .sync-logo svg { width: 14px; height: 12px; margin-top: -2px; }
+    .sync-chip.strava { --brand: #fc4c02; }
+    .sync-chip.fitbit { --brand: #00b0b9; }
+
+    /* Community tile */
+    .avatars { display: flex; margin-top: 30px; }
+    .avatar {
+      width: 46px; height: 46px; border-radius: 50%; margin-left: -12px;
+      display: grid; place-items: center; font-size: 14px; font-weight: 700; color: #000;
+      background: var(--c); box-shadow: 0 0 0 3px var(--tile);
+      transition: margin .5s var(--ease), transform .5s var(--ease);
     }
-    .form-helper-text {
-      color: #86868b;
-      font-size: 12px;
-      margin-top: 6px;
+    .avatar:first-child { margin-left: 0; }
+    .avatar--more { background: var(--tile-hi); color: var(--text); box-shadow: 0 0 0 3px var(--tile), inset 0 0 0 1px var(--line-hi); font-size: 13px; }
+    .tile:hover .avatar { margin-left: -4px; }
+    .tile:hover .avatar:first-child { margin-left: 0; }
+
+    /* Analytics tile */
+    .chart { margin-top: 28px; }
+    .chart__meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .chart__big { font-size: 28px; font-weight: 700; letter-spacing: -.04em; }
+    .chart__big small { font-size: 14px; color: var(--text-2); font-weight: 500; letter-spacing: 0; margin-left: 4px; }
+    .chart__delta { font-size: 13px; font-weight: 600; color: var(--green); }
+    .bars { display: flex; align-items: flex-end; gap: 8px; height: 110px; }
+    .bar {
+      flex: 1; height: var(--h); border-radius: 7px 7px 4px 4px;
+      background: linear-gradient(180deg, var(--cyan), var(--green)); opacity: .45;
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 1.1s var(--ease) calc(var(--i) * 80ms), opacity .3s;
     }
-    .auth-footer-text {
-      font-size: 13px;
-      color: #86868b;
-      text-align: center;
-      margin-top: 24px;
+    .bar.is-today { opacity: 1; box-shadow: 0 0 22px -2px rgba(48, 209, 88, .6); }
+    .tile:hover .bar { opacity: .7; }
+    .tile:hover .bar.is-today { opacity: 1; }
+    .chart.is-in .bar { transform: scaleY(1); }
+    .bars-x { display: flex; gap: 8px; margin-top: 8px; }
+    .bars-x span { flex: 1; text-align: center; font-size: 11px; color: var(--text-3); font-weight: 600; }
+
+    /* Rewards tile */
+    .cert {
+      position: relative; margin-top: 30px; padding: 20px 22px; border-radius: 16px;
+      background: linear-gradient(145deg, #fbfbfd 0%, #e8ebf0 100%); color: var(--ink);
+      transform: rotate(-3deg); transform-origin: 30% 100%;
+      box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .8);
+      transition: transform .7s var(--ease);
     }
-    .auth-link {
-      color: #2997ff;
-      font-weight: 600;
-      text-decoration: none;
-      transition: color 0.2s ease;
+    .tile:hover .cert { transform: rotate(0deg) translateY(-6px); }
+    .cert::before {
+      content: ""; position: absolute; inset: 6px; border-radius: 11px; border: 1px solid rgba(0, 0, 0, .1); pointer-events: none;
     }
-    .auth-link:hover {
-      color: #53aeff;
-      text-decoration: underline;
+    .cert__k { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #6e6e73; }
+    .cert__t { font-size: 20px; font-weight: 700; letter-spacing: -.03em; margin: 6px 0 2px; }
+    .cert__s { font-size: 13px; color: #6e6e73; }
+    .cert__seal {
+      position: absolute; right: 18px; top: 50%; translate: 0 -50%;
+      width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--grad); color: #000; font-size: 20px;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, .8), 0 8px 20px -6px rgba(48, 209, 88, .7);
     }
 
-    /* Apple Minimalist Footer */
-    .footer-apple {
-      background: #000;
-      border-top: 1px solid var(--border-subtle);
-      padding: 60px 24px 40px;
-      font-size: 12px;
-      color: var(--text-muted);
+    @media (max-width: 1068px) {
+      .span-7, .span-5 { grid-column: span 12; }
+      .span-4 { grid-column: span 6; }
+      .span-4:last-child { grid-column: span 12; }
+      .tile--journeys { min-height: 480px; }
     }
-    .footer-apple .container { max-width: var(--max-width); }
-    .footer-title {
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 14px;
+    @media (max-width: 734px) {
+      .bento { gap: 14px; }
+      .span-4, .span-4:last-child { grid-column: span 12; }
+      .tile--journeys { min-height: 440px; }
     }
-    .footer-links { list-style: none; padding: 0; margin: 0; }
-    .footer-links li { margin-bottom: 8px; }
-    .footer-links a:hover { color: #fff; }
 
-    /* Responsive Breakpoints */
-    @media (max-width: 992px) {
-      .bento-col-7, .bento-col-5, .bento-col-4, .bento-col-6 {
-        grid-column: span 12;
+    /* =========================================================
+       Route rail (light)
+       ========================================================= */
+    .rail {
+      display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+      padding: 10px max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))) 30px;
+      scroll-padding-inline: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter)));
+    }
+    .rail::-webkit-scrollbar { display: none; }
+    .route-card {
+      position: relative; isolation: isolate; overflow: hidden; flex: 0 0 clamp(270px, 29vw, 360px);
+      aspect-ratio: 3 / 4; border-radius: var(--r-xl); color: #fff; scroll-snap-align: start;
+      box-shadow: 0 18px 40px -22px rgba(0, 0, 0, .45);
+      transition: transform .6s var(--ease), box-shadow .6s var(--ease);
+    }
+    .route-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .5); }
+    .route-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform 1.2s var(--ease); }
+    .route-card:hover img { transform: scale(1.06); }
+    .route-card::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, .1) 55%, rgba(0, 0, 0, .82) 100%);
+    }
+    .route-card__km { position: absolute; top: 18px; left: 18px; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: var(--pill); }
+    .route-card__body { position: absolute; left: 24px; right: 24px; bottom: 24px; }
+    .route-card__region { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .75); }
+    .route-card__title { font-size: 28px; font-weight: 700; letter-spacing: -.035em; line-height: 1.08; margin-top: 6px; }
+    .route-card__go {
+      position: absolute; right: 18px; top: 18px; width: 36px; height: 36px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 13px;
+      opacity: 0; transform: scale(.8); transition: opacity .4s, transform .4s var(--ease);
+    }
+    .route-card:hover .route-card__go { opacity: 1; transform: none; }
+    .rail-nav { display: flex; justify-content: flex-end; gap: 12px; }
+    .rail-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+      background: rgba(0, 0, 0, .08); color: var(--ink); font-size: 14px;
+      transition: background .2s, opacity .2s, transform .2s var(--ease);
+    }
+    .rail-btn:hover:not(:disabled) { background: rgba(0, 0, 0, .14); }
+    .rail-btn:active:not(:disabled) { transform: scale(.94); }
+    .rail-btn:disabled { opacity: .35; cursor: default; }
+
+    /* =========================================================
+       Steps
+       ========================================================= */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: step; }
+    .step {
+      position: relative; padding: clamp(28px, 3vw, 40px); border-radius: var(--r-xl);
+      background: linear-gradient(180deg, var(--tile) 0%, rgba(18, 18, 20, .3) 100%);
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .step__num { font-size: clamp(64px, 7vw, 96px); font-weight: 700; letter-spacing: -.06em; line-height: .9; margin-bottom: 28px; }
+    .step__title { font-size: 24px; font-weight: 700; letter-spacing: -.03em; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .step__title i { font-size: 18px; color: var(--green); }
+    .step__text { color: var(--text-2); }
+    @media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+
+    /* =========================================================
+       Transgender welfare
+       ========================================================= */
+    .vv-tw {
+      position: relative; overflow: clip;
+      padding: clamp(96px, 12vw, 160px) var(--gutter);
+      background:
+        radial-gradient(900px 520px at 8% 0%, rgba(48, 209, 88, .13), transparent 60%),
+        radial-gradient(760px 440px at 100% 100%, rgba(100, 210, 255, .08), transparent 60%),
+        #040605;
+      border-top: 1px solid var(--line);
+    }
+    .vv-tw::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+      mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    }
+    .vv-tw__head { position: relative; text-align: center; max-width: 920px; margin: 0 auto clamp(56px, 8vw, 96px); }
+    .vv-tw__title { font-size: clamp(40px, 6.2vw, 80px); font-weight: 700; letter-spacing: -.045em; line-height: 1.03; }
+    .vv-tw__title em { font-style: normal; }
+    .vv-tw__inner {
+      position: relative; max-width: var(--max); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(40px, 6vw, 96px); align-items: start;
+    }
+    .vv-tw__visual { position: sticky; top: calc(var(--nav-h) + 32px); margin: 0; }
+    .vv-tw__frame {
+      position: relative; padding: 1.5px; border-radius: 34px;
+      background: linear-gradient(150deg, var(--green), rgba(255, 255, 255, .06) 40%, rgba(255, 255, 255, .06) 60%, var(--cyan));
+    }
+    .vv-tw__photo {
+      position: relative; border-radius: 32px; overflow: hidden; aspect-ratio: 4 / 5;
+      background: radial-gradient(circle at 30% 30%, rgba(48, 209, 88, .35), transparent 60%), #101311;
+    }
+    .vv-tw__photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.25) contrast(1.05); }
+    .vv-tw__photo::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(48, 209, 88, .08) 0%, rgba(4, 6, 5, .1) 45%, rgba(4, 6, 5, .93) 100%);
+    }
+    .vv-tw__quote {
+      position: absolute; left: 30px; right: 30px; bottom: 30px; z-index: 2; margin: 0;
+      color: var(--text); font-size: clamp(22px, 2.4vw, 30px); line-height: 1.2; font-weight: 700; letter-spacing: -.025em;
+    }
+    .vv-tw__quote::before { content: "\201C"; display: block; color: var(--green); font-size: 72px; line-height: .6; margin-bottom: 10px; }
+    .vv-tw__quote span {
+      display: block; margin-top: 16px; color: var(--green);
+      font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    }
+    .vv-tw__badge {
+      position: absolute; top: 36px; right: -28px; z-index: 3;
+      width: 148px; height: 148px; border-radius: 50%;
+      display: grid; place-content: center; text-align: center;
+      background: var(--grad); color: #000;
+      box-shadow: 0 0 0 8px #040605, 0 0 70px rgba(48, 209, 88, .5);
+      animation: bob 7s ease-in-out infinite;
+    }
+    .vv-tw__badge strong { font-size: 46px; line-height: 1; font-weight: 800; letter-spacing: -.05em; }
+    .vv-tw__badge small { font-size: 12px; line-height: 1.3; margin-top: 6px; font-weight: 700; }
+    .vv-tw__content p { font-size: 18px; line-height: 1.65; color: var(--text-2); margin-bottom: 22px; letter-spacing: -.012em; }
+    .vv-tw__content p.vv-tw__lead { font-size: clamp(20px, 2vw, 24px); line-height: 1.5; color: var(--text); letter-spacing: -.022em; }
+    .vv-tw__content p.vv-tw__emph {
+      position: relative; padding-left: 24px; margin: 40px 0;
+      font-size: clamp(24px, 2.6vw, 32px); line-height: 1.25; font-weight: 700; letter-spacing: -.03em; color: var(--text);
+    }
+    .vv-tw__emph::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 3px; background: linear-gradient(180deg, var(--green), var(--cyan)); }
+    .vv-tw__card {
+      position: relative; overflow: hidden; margin-top: 44px; padding: clamp(26px, 3vw, 36px); border-radius: 24px;
+      background: linear-gradient(160deg, rgba(48, 209, 88, .14), rgba(18, 20, 18, .85) 55%);
+      box-shadow: inset 0 0 0 1px rgba(48, 209, 88, .35);
+    }
+    .vv-tw__card::after {
+      content: ""; position: absolute; width: 240px; height: 240px; right: -90px; top: -100px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(48, 209, 88, .4), transparent 70%); pointer-events: none;
+    }
+    .vv-tw__card h3 { position: relative; display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; letter-spacing: -.03em; margin-bottom: 12px; }
+    .vv-tw__card h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 14px var(--green); }
+    .vv-tw__card p { position: relative; color: #c5ccc6 !important; margin: 0 !important; }
+    .vv-tw__card p strong { color: var(--green); font-weight: 600; }
+    .vv-tw__pillars { position: relative; list-style: none; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 24px 0 0; }
+    .vv-tw__pillars li {
+      padding: 8px 16px; border-radius: var(--pill); font-size: 14px; font-weight: 600;
+      background: rgba(48, 209, 88, .12); box-shadow: inset 0 0 0 1px rgba(48, 209, 88, .4);
+    }
+    @media (max-width: 900px) {
+      .vv-tw__inner { grid-template-columns: 1fr; }
+      .vv-tw__visual { position: relative; top: 0; max-width: 520px; width: 100%; margin: 0 auto; }
+      .vv-tw__badge { right: 16px; top: 16px; width: 112px; height: 112px; box-shadow: 0 0 0 6px #040605, 0 0 50px rgba(48, 209, 88, .5); }
+      .vv-tw__badge strong { font-size: 34px; }
+      .vv-tw__badge small { font-size: 10.5px; }
+    }
+
+    /* =========================================================
+       Final CTA
+       ========================================================= */
+    .cta-final { position: relative; isolation: isolate; overflow: clip; text-align: center; padding: clamp(110px, 15vw, 200px) var(--gutter); }
+    .cta-final::before {
+      content: ""; position: absolute; left: 50%; top: 50%; width: min(1100px, 140vw); aspect-ratio: 2 / 1; z-index: -1;
+      translate: -50% -50%; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(48, 209, 88, .28), rgba(41, 151, 255, .14) 55%, transparent);
+      filter: blur(20px);
+    }
+    .cta-final .h2 { font-size: clamp(44px, 7.4vw, 96px); }
+    .cta-final .lede { margin: 22px auto 36px; }
+
+    /* =========================================================
+       Sub-page hero
+       ========================================================= */
+    .page-hero { position: relative; isolation: isolate; text-align: center; padding: clamp(72px, 11vw, 140px) var(--gutter) clamp(40px, 6vw, 64px); }
+    .page-hero::before {
+      content: ""; position: absolute; left: 50%; top: 0; width: min(1000px, 130vw); height: 520px; z-index: -1; translate: -50% -35%;
+      background: radial-gradient(closest-side, rgba(48, 209, 88, .2), rgba(41, 151, 255, .1) 60%, transparent);
+      filter: blur(20px); pointer-events: none;
+    }
+    .page-hero .h1 { font-size: clamp(48px, 8vw, 96px); font-weight: 700; letter-spacing: -.05em; line-height: 1; }
+    .page-hero .lede { margin: 22px auto 0; }
+
+    /* Challenges page */
+    .segmented {
+      display: inline-flex; gap: 4px; padding: 4px; margin-top: 36px; border-radius: var(--pill);
+      background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .segmented button {
+      border: 0; background: transparent; color: var(--text-2); cursor: pointer;
+      font-size: 14px; font-weight: 500; padding: 8px 18px; border-radius: var(--pill);
+      transition: background .3s var(--ease), color .3s;
+    }
+    .segmented button:hover { color: var(--text); }
+    .segmented button[aria-pressed="true"] { background: var(--text); color: #000; }
+    .cgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: clamp(88px, 12vw, 140px); }
+    .ccard {
+      display: flex; flex-direction: column; overflow: hidden; border-radius: var(--r-xl);
+      background: var(--tile); box-shadow: inset 0 0 0 1px var(--line);
+      transition: transform .6s var(--ease), box-shadow .4s ease;
+      animation: rise .8s var(--ease) calc(var(--i, 0) * 70ms) backwards;
+    }
+    .ccard:hover { transform: translateY(-6px); box-shadow: inset 0 0 0 1px var(--line-hi), 0 30px 60px -30px rgba(48, 209, 88, .35); }
+    .ccard__media { position: relative; aspect-ratio: 16 / 11; overflow: hidden; }
+    .ccard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+    .ccard:hover .ccard__media img { transform: scale(1.06); }
+    .ccard__km { position: absolute; top: 14px; left: 14px; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: var(--pill); }
+    .ccard__body { flex: 1; display: flex; flex-direction: column; padding: 24px 26px 26px; }
+    .ccard__region { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); }
+    .ccard__title { font-size: 25px; font-weight: 700; letter-spacing: -.035em; line-height: 1.1; margin: 8px 0 10px; }
+    .ccard__text { flex: 1; color: var(--text-2); font-size: 15px; line-height: 1.5; }
+    .dist { margin: 22px 0 20px; }
+    .dist__bar { height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+    .dist__bar i { display: block; height: 100%; width: var(--w); border-radius: 4px; background: var(--grad); }
+    .dist__lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-3); margin-top: 8px; font-weight: 500; }
+    .ccard .btn { align-self: stretch; }
+    .empty { grid-column: 1 / -1; text-align: center; color: var(--text-2); padding: 40px 0; }
+    @media (max-width: 1068px) { .cgrid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 680px) { .cgrid { grid-template-columns: 1fr; } }
+
+    /* Vision & support */
+    .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .values .tile { min-height: 280px; display: flex; flex-direction: column; }
+    .values .tile__text { margin-top: auto; }
+    .values .tile__title { margin-bottom: 18px; }
+    .vision-statement { max-width: 860px; margin: 0 auto; text-align: center; font-size: clamp(24px, 3.2vw, 40px); line-height: 1.25; font-weight: 600; letter-spacing: -.035em; color: var(--text-3); }
+    .vision-statement b { color: var(--text); font-weight: 600; }
+    .help-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-bottom: clamp(88px, 12vw, 140px); }
+    .help-card { display: flex; flex-direction: column; min-height: 240px; }
+    .help-card .tile__text { margin-bottom: 24px; }
+    .help-card .link { margin-top: auto; font-size: 15px; word-break: break-word; }
+    @media (max-width: 900px) { .values, .help-grid { grid-template-columns: 1fr; } }
+
+    /* =========================================================
+       Auth
+       ========================================================= */
+    .auth { position: relative; isolation: isolate; min-height: calc(100vh - var(--nav-h)); display: grid; place-items: center; padding: 56px var(--gutter) 80px; }
+    .auth::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(40% 40% at 25% 25%, rgba(48, 209, 88, .2), transparent 70%),
+        radial-gradient(40% 40% at 80% 70%, rgba(41, 151, 255, .18), transparent 70%);
+      filter: blur(20px);
+    }
+    .auth-card { width: 100%; max-width: 440px; padding: clamp(28px, 5vw, 48px); border-radius: var(--r-xl); animation: rise .9s var(--ease) backwards; }
+    .auth-card__logo { width: 190px; height: auto; margin: 0 auto 26px; filter: drop-shadow(0 0 28px rgba(255, 163, 90, .25)); }
+    .auth-title { font-size: 34px; font-weight: 700; letter-spacing: -.04em; text-align: center; }
+    .auth-sub { text-align: center; color: var(--text-2); font-size: 15px; margin: 8px 0 30px; }
+    .field { position: relative; margin-bottom: 14px; }
+    .field input {
+      width: 100%; height: 60px; padding: 24px 16px 8px; border-radius: 14px; border: 0; outline: none;
+      background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px var(--line-hi);
+      color: var(--text); font: inherit; font-size: 17px;
+      transition: box-shadow .2s ease, background .2s ease;
+    }
+    .field label {
+      position: absolute; left: 17px; top: 19px; font-size: 17px; color: var(--text-3); pointer-events: none;
+      transform-origin: left top; transition: transform .25s var(--ease), color .25s;
+    }
+    .field input:focus { background: rgba(255, 255, 255, .09); box-shadow: inset 0 0 0 1px var(--blue), 0 0 0 4px rgba(41, 151, 255, .25); }
+    .field input:focus + label, .field input:not(:placeholder-shown) + label { transform: translateY(-11px) scale(.72); color: var(--text-2); }
+    .field__help { font-size: 12px; color: var(--text-3); margin: 8px 0 0 4px; }
+    .check { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); margin: 6px 0 26px 2px; cursor: pointer; }
+    .check input { width: 18px; height: 18px; accent-color: var(--green); margin: 0; }
+    .auth-alt { text-align: center; font-size: 14px; color: var(--text-2); margin-top: 24px; }
+    .auth-alt a { color: var(--link); font-weight: 600; }
+    .auth-alt a:hover { text-decoration: underline; }
+
+    /* Coming soon */
+    .soon { min-height: calc(80vh - var(--nav-h)); display: grid; place-items: center; text-align: center; padding: 80px var(--gutter); }
+    .soon__icon {
+      width: 72px; height: 72px; margin: 0 auto 28px; border-radius: 22px; display: grid; place-items: center;
+      font-size: 28px; color: #000; background: var(--grad); box-shadow: 0 0 60px rgba(48, 209, 88, .45);
+      animation: bob 6s ease-in-out infinite;
+    }
+    .soon .lede { margin: 18px auto 32px; }
+
+    /* =========================================================
+       Footer
+       ========================================================= */
+    .footer { background: var(--bg-elev); border-top: 1px solid var(--line); font-size: 12px; color: var(--text-3); padding: 48px 0 28px; }
+    .footer__top { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    .footer__tag { font-size: 14px; color: var(--text-2); }
+    .footer__logo { height: 64px; width: auto; }
+    .footer__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; padding: 32px 0; }
+    .footer h4 { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 12px; letter-spacing: -.005em; }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { margin-bottom: 9px; }
+    .footer li a, .footer__social a { color: var(--text-2); transition: color .2s; }
+    .footer li a:hover, .footer__social a:hover { color: var(--text); }
+    .footer__social { display: flex; gap: 10px; margin-bottom: 14px; }
+    .footer__social a {
+      width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 14px;
+      background: rgba(255, 255, 255, .06); transition: background .2s, color .2s, transform .3s var(--ease);
+    }
+    .footer__social a:hover { background: rgba(255, 255, 255, .14); transform: translateY(-2px); }
+    .footer__bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--line); }
+    @media (max-width: 734px) { .footer__cols { grid-template-columns: repeat(2, 1fr); } }
+
+    /* =========================================================
+       Reduced motion
+       ========================================================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important; transition-delay: 0s !important; scroll-behavior: auto !important;
       }
-      .navbar-collapse {
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(20px);
-        padding: 24px;
-        border-radius: var(--radius-md);
-        margin-top: 12px;
-        border: 1px solid var(--border-subtle);
-      }
+      .js .reveal { opacity: 1; transform: none; }
+      .showcase__frame { transform: none; }
     }
   </style>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-apple fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#" onclick="showPage('home-page')">
-        <i class="fa-solid fa-bolt-lightning text-success"></i> Veeran Vitality
+  <!-- SVG sprite: brand mark + partner logos -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#30d158"/>
+        <stop offset="1" stop-color="#64d2ff"/>
+      </linearGradient>
+    </defs>
+    <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></symbol>
+    <symbol id="i-garmin" viewBox="19.72 8.74 2.84 2.32"><path d="M22.134 11.051h-2.165c-.079 0-.148-.039-.187-.108s-.039-.146 0-.215l1.084-1.874a.21.21 0 0 1 .187-.108.21.21 0 0 1 .187.108l1.084 1.874a.203.203 0 0 1 0 .215.22.22 0 0 1-.19.108z"/></symbol>
+    <symbol id="i-strava" viewBox="0 0 24 24"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></symbol>
+    <symbol id="i-fitbit" viewBox="0 0 24 24"><path d="M13.298 1.825c0 .976-.81 1.785-1.786 1.785-.972 0-1.784-.81-1.784-1.785 0-.973.813-1.785 1.784-1.785.976 0 1.786.813 1.786 1.785zm-1.786 3.243c-1.052 0-1.863.81-1.863 1.866 0 1.053.81 1.865 1.865 1.865 1.053 0 1.865-.811 1.865-1.865s-.825-1.866-1.875-1.866h.008zm0 5.029c-1.052 0-1.945.891-1.945 1.945s.894 1.945 1.947 1.945 1.946-.891 1.946-1.945-.894-1.945-1.946-1.945h-.002zm0 5.107c-1.052 0-1.863.81-1.863 1.864s.81 1.866 1.865 1.866c1.053 0 1.865-.811 1.865-1.866 0-.972-.825-1.864-1.875-1.864h.008zm0 5.191c-.972 0-1.784.809-1.784 1.784 0 .97.813 1.781 1.784 1.781.977 0 1.786-.809 1.786-1.784 0-.973-.81-1.781-1.786-1.781zM16.46 4.823c-1.136 0-2.108.977-2.108 2.111 0 1.134.973 2.107 2.108 2.107 1.135 0 2.106-.975 2.106-2.107 0-1.135-.972-2.109-2.106-2.109v-.002zm0 5.03c-1.216 0-2.19.973-2.19 2.19 0 1.216.975 2.187 2.19 2.187 1.215 0 2.189-.971 2.189-2.189 0-1.216-.974-2.188-2.189-2.188zm0 5.108c-1.136 0-2.108.976-2.108 2.107 0 1.135.973 2.109 2.108 2.109 1.135 0 2.106-.976 2.106-2.109s-.971-2.107-2.106-2.107zm5.106-5.353c-1.296 0-2.43 1.055-2.43 2.434 0 1.297 1.051 2.433 2.43 2.433 1.381 0 2.434-1.065 2.434-2.444-.082-1.382-1.135-2.431-2.434-2.431v.008zM6.486 5.312c-.892 0-1.62.73-1.62 1.623 0 .891.729 1.62 1.62 1.62.893 0 1.619-.729 1.619-1.62 0-.893-.727-1.62-1.619-1.62v-.003zm0 5.027c-.973 0-1.703.729-1.703 1.703 0 .975.721 1.703 1.695 1.703s1.695-.73 1.695-1.703c0-.975-.735-1.703-1.71-1.703h.023zm0 5.107c-.892 0-1.62.731-1.62 1.62 0 .895.729 1.623 1.62 1.623.893 0 1.619-.735 1.619-1.635s-.727-1.62-1.619-1.62v.012zm-5.025-4.863c-.813 0-1.461.646-1.461 1.459 0 .81.648 1.459 1.46 1.459.81 0 1.459-.648 1.459-1.459s-.648-1.459-1.458-1.459z"/></symbol>
+  </svg>
+
+  <!-- ===================== Navigation ===================== -->
+  <header class="gnav" id="gnav">
+    <nav class="gnav__inner" aria-label="Primary">
+      <a class="brand" href="#home-page" aria-label="Veeran Vitality home">
+        <img class="brand__logo" src="images/veeranvitality-wordmark.png" alt="Veeran Vitality" width="151" height="22"/>
       </a>
-      <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler border-0" onclick="toggleMenu()" type="button">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#" onclick="showPage('home-page')">Overview</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="showPage('events-page')">Challenges</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="showPage('about-us')">Vision</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="showPage('under-construction')">Support</a>
-          </li>
-        </ul>
-        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
-          <a class="nav-link" href="#" onclick="showPage('login-page')">Sign In</a>
-          <a class="btn btn-nav-action" href="#" onclick="showPage('signup-page')">Get Started</a>
-        </div>
+      <ul class="gnav__links">
+        <li><a href="#home-page" data-nav="home-page">Overview</a></li>
+        <li><a href="#events-page" data-nav="events-page">Challenges</a></li>
+        <li><a href="#about-us" data-nav="about-us">Vision</a></li>
+        <li><a href="#support-page" data-nav="support-page">Support</a></li>
+      </ul>
+      <div class="gnav__actions">
+        <a class="gnav__signin" href="#login-page" data-nav="login-page">Sign in</a>
+        <a class="btn btn--light btn--sm" href="#signup-page">Get started</a>
       </div>
-    </div>
-  </nav>
+      <button class="gnav__burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav">
+        <span></span><span></span>
+      </button>
+    </nav>
+  </header>
 
-  <main>
-    <!-- HOME / HERO & BENTO -->
+  <div class="mnav" id="mnav" inert>
+    <ul>
+      <li><a class="mnav__link" style="--i:0" href="#home-page" data-nav="home-page">Overview</a></li>
+      <li><a class="mnav__link" style="--i:1" href="#events-page" data-nav="events-page">Challenges</a></li>
+      <li><a class="mnav__link" style="--i:2" href="#about-us" data-nav="about-us">Vision</a></li>
+      <li><a class="mnav__link" style="--i:3" href="#support-page" data-nav="support-page">Support</a></li>
+      <li><a class="mnav__link" style="--i:4" href="#login-page" data-nav="login-page">Sign in</a></li>
+    </ul>
+    <div class="mnav__actions">
+      <a class="btn btn--primary btn--md" href="#signup-page">Get started</a>
+      <a class="btn btn--ghost btn--md" href="#events-page">Explore challenges</a>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- =================================================
+         HOME
+         ================================================= -->
     <section class="page-section active" id="home-page">
-      <div class="ambient-glow"></div>
-      
-      <div class="hero-container">
-        <div class="hero-badge">
-          <i class="fa-solid fa-sparkles"></i> The New Standard in Virtual Fitness
-        </div>
-        <h1 class="headline-large">
-          Move beyond limits.<br/>Explore the globe.
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero__aurora" aria-hidden="true"></div>
+        <span class="pill-tag rise" style="--d:.05s"><b>New</b> The new standard in virtual fitness</span>
+        <h1 class="hero__title">
+          <span class="line rise" style="--d:.15s">Move beyond limits.</span>
+          <span class="line grad-text rise" style="--d:.3s">Explore the globe.</span>
         </h1>
-        <p class="subhead-large">
+        <p class="hero__sub rise" style="--d:.45s">
           Transform daily runs, walks, and rides into cinematic expeditions across legendary routes—earning certificates upon completion.
         </p>
-        <div class="cta-group">
-          <button class="btn btn-apple-primary" onclick="showPage('events-page')">Explore Challenges</button>
-          <button class="btn btn-apple-secondary" onclick="showPage('signup-page')">Create Free Account</button>
+        <div class="hero__ctas rise" style="--d:.6s">
+          <a class="btn btn--primary" href="#events-page">Explore challenges</a>
+          <a class="link" href="#signup-page">Create a free account</a>
         </div>
       </div>
 
-      <!-- Bento Grid Features Section -->
-      <div class="section-shell">
-        <div class="section-label">Engineered for Achievement</div>
-        <h2 class="section-headline">Why Veeran Vitality.</h2>
-        
-        <div class="bento-grid">
-          <!-- Bento 1 (Large) -->
-          <div class="bento-item bento-col-7">
+      <!-- Product showcase -->
+      <div class="showcase rise" id="showcase" style="--d:.75s">
+        <div class="showcase__frame">
+          <img class="showcase__img" alt="Snow-capped Himalayan peaks on the route to Everest Base Camp"
+               src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1800&auto=format&fit=crop"/>
+          <svg class="showcase__route" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="routeGrad" gradientUnits="userSpaceOnUse" x1="80" y1="560" x2="980" y2="150">
+                <stop offset="0" stop-color="#30d158"/>
+                <stop offset="1" stop-color="#64d2ff"/>
+              </linearGradient>
+            </defs>
+            <path id="routePath" class="route-base" d="M70 575 C 210 540, 250 470, 380 455 S 560 430, 620 360 S 700 250, 820 230 S 940 180, 990 120"/>
+            <path class="route-progress" pathLength="100" d="M70 575 C 210 540, 250 470, 380 455 S 560 430, 620 360 S 700 250, 820 230 S 940 180, 990 120"/>
+            <circle cx="990" cy="120" r="7" fill="#fff" opacity=".9"/>
+            <circle cx="990" cy="120" r="14" fill="none" stroke="#fff" stroke-opacity=".5"/>
+            <g class="route-dot">
+              <circle r="9" fill="#30d158">
+                <animate attributeName="r" values="9;24" dur="1.8s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values=".55;0" dur="1.8s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="7" fill="#fff" stroke="#30d158" stroke-width="4"/>
+              <animateMotion id="routeMotion" dur="2.6s" begin="indefinite" fill="freeze"
+                             calcMode="spline" keyPoints="0;0.68" keyTimes="0;1" keySplines=".16 1 .3 1">
+                <mpath href="#routePath"/>
+              </animateMotion>
+            </g>
+          </svg>
+
+          <div class="float float--ring glass">
+            <div class="ring">
+              <svg viewBox="0 0 52 52" aria-hidden="true">
+                <circle class="ring__track" cx="26" cy="26" r="22"/>
+                <circle class="ring__fill" cx="26" cy="26" r="22" pathLength="100"/>
+              </svg>
+              <b>68%</b>
+            </div>
             <div>
-              <div class="bento-icon"><i class="fa-solid fa-earth-americas"></i></div>
-              <div class="bento-title">Global Virtual Journeys</div>
-              <div class="bento-desc">
-                Step into hyper-realistic route trackers. Traverse the Great Wall or summit Everest right from your local neighborhood trail.
-              </div>
-            </div>
-            <div class="bento-media">
-              <img alt="Global Virtual Journeys" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop"/>
+              <span class="float__k">Expedition</span>
+              <span class="float__v">Everest Base Camp</span>
+              <span class="float__s">115.6 of 170 km</span>
             </div>
           </div>
 
-          <!-- Bento 2 (Small) -->
-          <div class="bento-item bento-col-5">
+          <div class="float float--stat glass">
+            <span class="float__icon"><i class="fa-solid fa-person-running"></i></span>
             <div>
-              <div class="bento-icon"><i class="fa-solid fa-watch-fitness"></i></div>
-              <div class="bento-title">Seamless Device Sync</div>
-              <div class="bento-desc">
-                Effortlessly sync Apple Watch, Garmin, Strava, and Fitbit. Your metrics flow instantly into your challenge progress.
-              </div>
-            </div>
-            <div class="bento-media">
-              <img alt="Device Sync" src="https://images.unsplash.com/photo-1510017803434-a899398421b3?q=80&w=800&auto=format&fit=crop"/>
+              <span class="float__k">Today</span>
+              <span class="float__v">12.4 km</span>
+              <span class="float__s">Synced from your watch</span>
             </div>
           </div>
 
-          <!-- Bento 3 -->
-          <div class="bento-item bento-col-4">
-            <div class="bento-icon"><i class="fa-solid fa-users"></i></div>
-            <div class="bento-title">Supportive Community</div>
-            <div class="bento-desc">
-              Connect with a vibrant network of global runners and walkers driving each other forward.
-            </div>
-          </div>
-
-          <!-- Bento 4 -->
-          <div class="bento-item bento-col-4">
-            <div class="bento-icon"><i class="fa-solid fa-chart-line-up"></i></div>
-            <div class="bento-title">Precision Analytics</div>
-            <div class="bento-desc">
-              Track pace, elevation gains, and completion milestones with clean, high-precision visual graphs.
-            </div>
-          </div>
-
-          <!-- Bento 5 -->
-          <div class="bento-item bento-col-4">
-            <div class="bento-icon"><i class="fa-solid fa-award"></i></div>
-            <div class="bento-title">Tangible Rewards</div>
-            <div class="bento-desc">
-              Earn certificates straight to your email upon completion.
+          <div class="float float--badge glass">
+            <span class="float__icon"><i class="fa-solid fa-award"></i></span>
+            <div>
+              <span class="float__k">Unlocked</span>
+              <span class="float__v">Certificate earned</span>
+              <span class="float__s">Great Wall of China</span>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="reveal">
+          <div class="stat__num grad-text" data-count="6" data-stat="routes">6</div>
+          <div class="stat__label">Legendary routes</div>
+        </div>
+        <div class="reveal" style="--d:.08s">
+          <div class="stat__num grad-text" data-count="730" data-stat="km">730</div>
+          <div class="stat__label">Kilometres of journeys</div>
+        </div>
+        <div class="reveal" style="--d:.16s">
+          <div class="stat__num grad-text" data-count="4">4</div>
+          <div class="stat__label">Device platforms synced</div>
+        </div>
+        <div class="reveal" style="--d:.24s">
+          <div class="stat__num grad-text" data-count="10" data-suffix="%">10%</div>
+          <div class="stat__label">Of profits to transgender welfare</div>
+        </div>
+      </div>
+
+      <!-- Bento -->
+      <section class="section" aria-labelledby="why-title">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="eyebrow">Engineered for achievement.</span>
+            <h2 class="h2" id="why-title">Why Veeran Vitality.</h2>
+          </div>
+
+          <div class="bento">
+            <article class="tile tile--journeys span-7 reveal">
+              <img class="tile__bg" alt="" loading="lazy"
+                   src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1400&auto=format&fit=crop"/>
+              <div class="tile__icon"><i class="fa-solid fa-earth-americas"></i></div>
+              <h3 class="tile__title">Global Virtual Journeys</h3>
+              <p class="tile__text">Step into hyper-realistic route trackers. Traverse the Great Wall or summit Everest right from your local neighborhood trail.</p>
+              <div class="tags">
+                <span class="tag glass"><i class="fa-solid fa-location-dot"></i>Everest Base Camp</span>
+                <span class="tag glass"><i class="fa-solid fa-location-dot"></i>Great Wall</span>
+                <span class="tag glass"><i class="fa-solid fa-location-dot"></i>Sahara</span>
+                <span class="tag glass"><i class="fa-solid fa-location-dot"></i>Norwegian Fjords</span>
+              </div>
+            </article>
+
+            <article class="tile tile--sync span-5 reveal" style="--d:.1s">
+              <div class="tile__icon"><i class="fa-solid fa-heart-pulse"></i></div>
+              <h3 class="tile__title">Seamless Device Sync</h3>
+              <p class="tile__text">Effortlessly sync Apple Watch, Garmin, Strava, and Fitbit. Your metrics flow instantly into your challenge progress.</p>
+              <div class="sync-brands" aria-label="Supported devices and apps">
+                <span class="sync-chip apple"><span class="sync-logo"><svg aria-hidden="true"><use href="#i-apple"/></svg></span>Apple Watch</span>
+                <span class="sync-chip garmin"><span class="sync-logo"><svg aria-hidden="true"><use href="#i-garmin"/></svg></span>Garmin</span>
+                <span class="sync-chip strava"><span class="sync-logo"><svg aria-hidden="true"><use href="#i-strava"/></svg></span>Strava</span>
+                <span class="sync-chip fitbit"><span class="sync-logo"><svg aria-hidden="true"><use href="#i-fitbit"/></svg></span>Fitbit</span>
+              </div>
+              <div class="orbit" aria-hidden="true">
+                <span class="orbit__ring orbit__ring--3"></span>
+                <span class="orbit__ring orbit__ring--2"></span>
+                <span class="orbit__ring orbit__ring--1"></span>
+                <span class="orbit__core"><i class="fa-solid fa-heart-pulse"></i></span>
+              </div>
+            </article>
+
+            <article class="tile span-4 reveal">
+              <div class="tile__icon"><i class="fa-solid fa-users"></i></div>
+              <h3 class="tile__title">Supportive Community</h3>
+              <p class="tile__text">Connect with a vibrant network of global runners and walkers driving each other forward.</p>
+              <div class="avatars" aria-hidden="true">
+                <span class="avatar" style="--c:#30d158">AR</span>
+                <span class="avatar" style="--c:#64d2ff">MK</span>
+                <span class="avatar" style="--c:#ffd60a">SJ</span>
+                <span class="avatar" style="--c:#ff9f0a">LP</span>
+                <span class="avatar" style="--c:#bf5af2">NT</span>
+                <span class="avatar avatar--more">+</span>
+              </div>
+            </article>
+
+            <article class="tile span-4 reveal" style="--d:.08s">
+              <div class="tile__icon"><i class="fa-solid fa-chart-line"></i></div>
+              <h3 class="tile__title">Precision Analytics</h3>
+              <p class="tile__text">Track pace and completion milestones with clean, high-precision visual graphs.</p>
+              <div class="chart" aria-hidden="true">
+                <div class="chart__meta">
+                  <span class="chart__big">42.8<small>km this week</small></span>
+                  <span class="chart__delta"><i class="fa-solid fa-arrow-trend-up"></i> 18%</span>
+                </div>
+                <div class="bars">
+                  <span class="bar" style="--h:45%;--i:0"></span>
+                  <span class="bar" style="--h:70%;--i:1"></span>
+                  <span class="bar" style="--h:35%;--i:2"></span>
+                  <span class="bar" style="--h:85%;--i:3"></span>
+                  <span class="bar" style="--h:55%;--i:4"></span>
+                  <span class="bar" style="--h:62%;--i:5"></span>
+                  <span class="bar is-today" style="--h:100%;--i:6"></span>
+                </div>
+                <div class="bars-x"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+              </div>
+            </article>
+
+            <article class="tile span-4 reveal" style="--d:.16s">
+              <div class="tile__icon"><i class="fa-solid fa-award"></i></div>
+              <h3 class="tile__title">Tangible Rewards</h3>
+              <p class="tile__text">Earn certificates straight to your email upon completion.</p>
+              <div class="cert" aria-hidden="true">
+                <div class="cert__k">Certificate of completion</div>
+                <div class="cert__t">Great Wall of China</div>
+                <div class="cert__s">100 km · Completed</div>
+                <span class="cert__seal"><i class="fa-solid fa-medal"></i></span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Route rail -->
+      <section class="section section--light" aria-labelledby="routes-title">
+        <div class="wrap">
+          <div class="section-head section-head--row reveal">
+            <div>
+              <span class="eyebrow">Expeditions</span>
+              <h2 class="h2" id="routes-title">Choose your odyssey.</h2>
+            </div>
+            <a class="link" href="#events-page">See all challenges</a>
+          </div>
+        </div>
+        <div class="rail reveal" id="rail" aria-label="Featured challenges"></div>
+        <div class="wrap">
+          <div class="rail-nav">
+            <button class="rail-btn" id="railPrev" type="button" aria-label="Previous routes"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="rail-btn" id="railNext" type="button" aria-label="Next routes"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section class="section" aria-labelledby="how-title">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <span class="eyebrow">How it works</span>
+            <h2 class="h2" id="how-title">Three steps. <span class="muted">Endless horizons.</span></h2>
+          </div>
+          <div class="steps">
+            <div class="step reveal">
+              <div class="step__num grad-text">01</div>
+              <h3 class="step__title"><i class="fa-solid fa-route"></i>Pick your route</h3>
+              <p class="step__text">Choose a legendary journey, from Everest Base Camp to the Fjords of Norway.</p>
+            </div>
+            <div class="step reveal" style="--d:.1s">
+              <div class="step__num grad-text">02</div>
+              <h3 class="step__title"><i class="fa-solid fa-arrows-rotate"></i>Connect your device</h3>
+              <p class="step__text">Link Apple Watch, Garmin, Strava or Fitbit, and your runs, walks and rides flow straight into your progress.</p>
+            </div>
+            <div class="step reveal" style="--d:.2s">
+              <div class="step__num grad-text">03</div>
+              <h3 class="step__title"><i class="fa-solid fa-medal"></i>Move and earn</h3>
+              <p class="step__text">Every kilometre moves you along the route. Reach the finish and your certificate lands in your inbox.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transgender Welfare (home page only) -->
+      <section class="vv-tw" id="transgender-welfare" aria-labelledby="vv-tw-title">
+        <div class="vv-tw__head reveal">
+          <span class="eyebrow">Beyond the Finish Line</span>
+          <h2 class="vv-tw__title" id="vv-tw-title">Our Commitment to<br/><em class="grad-text">Transgender Welfare</em></h2>
+        </div>
+
+        <div class="vv-tw__inner">
+          <!-- Photo column -->
+          <figure class="vv-tw__visual reveal">
+            <div class="vv-tw__frame">
+              <div class="vv-tw__photo">
+                <!-- REPLACE with your licensed photo (portrait orientation, ~1200×1500px) -->
+                <img src="images/transgender-welfare.jpg"
+                     alt="A transgender woman smiling confidently"
+                     loading="lazy"
+                     onerror="this.style.display='none'"/>
+                <blockquote class="vv-tw__quote">
+                  They did not choose this.<br/>It comes from being shut out.
+                  <span>Dignity · Education · Opportunity</span>
+                </blockquote>
+              </div>
+            </div>
+            <div class="vv-tw__badge" aria-label="10 percent of profits pledged">
+              <strong>10%</strong>
+              <small>of our profits<br/>pledged</small>
+            </div>
+          </figure>
+
+          <!-- Text column -->
+          <div class="vv-tw__content reveal" style="--d:.1s">
+            <p class="vv-tw__lead">
+              Across much of the world, transgender people face hardship that starts early in life and often
+              follows them into adulthood. In many societies, especially where social acceptance and legal
+              protections are still limited, a family that discovers a child is transgender may see it as a
+              source of shame. Worried about how they will be seen in their community, some parents disown these
+              children and force them out of the home, leaving them to fend for themselves at a young age.
+            </p>
+
+            <p>
+              Even children whose families accept them are not spared. At school, transgender children are often
+              bullied, harassed and isolated by classmates, and sometimes by teachers. Facing this every day, many
+              leave school early. They lose the education that could have led to stable work and independence.
+              Not every society has the awareness, support systems or protections that would make schools and
+              workplaces safe for them.
+            </p>
+
+            <p>
+              The consequences are severe. With no family support, no education and no job opportunities, many
+              transgender people are pushed to the edges of society. Many end up begging on the streets, and many
+              are forced into sex work or other risky and unlawful ways of surviving.
+            </p>
+
+            <p class="vv-tw__emph">They did not choose this. It comes from being shut out at every stage of life.</p>
+
+            <div class="vv-tw__card">
+              <h3>Our pledge</h3>
+              <p>
+                At Veeran Vitality, we believe a business has a responsibility to the society it is part of.
+                As a socially responsible organisation, <strong>we will give 10% of our profits to transgender
+                welfare.</strong> The money will support efforts that help transgender people get an education,
+                build a livelihood, and live with the dignity, safety and opportunity everyone deserves.
+              </p>
+              <ul class="vv-tw__pillars">
+                <li>Education</li>
+                <li>Livelihoods</li>
+                <li>Dignity &amp; Safety</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="cta-final" aria-labelledby="cta-title">
+        <div class="reveal">
+          <h2 class="h2" id="cta-title">Your next expedition<br/><span class="grad-text">starts today.</span></h2>
+          <p class="lede">Create a free account and turn your next run, walk or ride into a journey across the globe.</p>
+          <div class="hero__ctas">
+            <a class="btn btn--primary" href="#signup-page">Get started — it’s free</a>
+            <a class="link" href="#events-page">Browse challenges</a>
+          </div>
+        </div>
+      </section>
     </section>
 
-    <!-- EVENTS PAGE -->
+    <!-- =================================================
+         CHALLENGES
+         ================================================= -->
     <section class="page-section" id="events-page">
-      <div class="section-shell">
-        <div class="text-center mb-5">
-          <div class="section-label">Expeditions</div>
-          <h2 class="section-headline">Choose Your Odyssey.</h2>
+      <div class="page-hero">
+        <span class="eyebrow rise">Expeditions</span>
+        <h1 class="h1 rise" style="--d:.1s">Choose your <span class="grad-text">odyssey.</span></h1>
+        <p class="lede rise" style="--d:.2s">Legendary routes from the roof of the world to the edge of the Sahara. Every kilometre you move brings you closer to the finish.</p>
+        <div class="segmented rise" style="--d:.3s" role="group" aria-label="Filter challenges by distance">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="short" aria-pressed="false">Under 100 km</button>
+          <button type="button" data-filter="long" aria-pressed="false">100 km +</button>
         </div>
-
-        <div class="row g-4">
-          <!-- Card 1 -->
-          <div class="col-md-6 col-lg-4">
-            <div class="challenge-card">
-              <div class="challenge-img-wrap">
-                <span class="challenge-pill">170 km</span>
-                <img alt="Everest Base Camp Trek" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop"/>
-              </div>
-              <div class="challenge-body">
-                <div>
-                  <h3 class="challenge-title">Everest Base Camp</h3>
-                  <p class="challenge-desc">Climb through high altitude trails to the roof of the world across 170 km of pure endurance.</p>
-                </div>
-                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="col-md-6 col-lg-4">
-            <div class="challenge-card">
-              <div class="challenge-img-wrap">
-                <span class="challenge-pill">100 km</span>
-                <img alt="Great Wall of China" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=600&auto=format&fit=crop"/>
-              </div>
-              <div class="challenge-body">
-                <div>
-                  <h3 class="challenge-title">Great Wall of China</h3>
-                  <p class="challenge-desc">Traverse historic stone paths and mountain ridges through an ancient civilization marvel.</p>
-                </div>
-                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="col-md-6 col-lg-4">
-            <div class="challenge-card">
-              <div class="challenge-img-wrap">
-                <span class="challenge-pill">60 km</span>
-                <img alt="Mamallapuram Coastal Route" src="https://images.unsplash.com/photo-1582510003544-4d00b7f74220?q=80&w=600&auto=format&fit=crop"/>
-              </div>
-              <div class="challenge-body">
-                <div>
-                  <h3 class="challenge-title">Mamallapuram Coastal</h3>
-                  <p class="challenge-desc">Cycle or run scenic coastal highways beside the Bay of Bengal into historic stone temples.</p>
-                </div>
-                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="col-md-6 col-lg-4">
-            <div class="challenge-card">
-              <div class="challenge-img-wrap">
-                <span class="challenge-pill">50 km</span>
-                <img alt="Amazon Rainforest" src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=600&auto=format&fit=crop"/>
-              </div>
-              <div class="challenge-body">
-                <div>
-                  <h3 class="challenge-title">Amazon Rainforest</h3>
-                  <p class="challenge-desc">Immerse yourself along untamed river paths through lush biodiversity and wild rainforests.</p>
-                </div>
-                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="col-md-6 col-lg-4">
-            <div class="challenge-card">
-              <div class="challenge-img-wrap">
-                <span class="challenge-pill">200 km</span>
-                <img alt="Sahara Desert Crossing" src="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=600&auto=format&fit=crop"/>
-              </div>
-              <div class="challenge-body">
-                <div>
-                  <h3 class="challenge-title">Sahara Desert Crossing</h3>
-                  <p class="challenge-desc">Brave rolling dunes and endless golden horizons on an extreme desert trek.</p>
-                </div>
-                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="col-md-6 col-lg-4">
-            <div class="challenge-card">
-              <div class="challenge-img-wrap">
-                <span class="challenge-pill">150 km</span>
-                <img alt="Norwegian Fjords" src="https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=600&auto=format&fit=crop"/>
-              </div>
-              <div class="challenge-body">
-                <div>
-                  <h3 class="challenge-title">Fjords of Norway</h3>
-                  <p class="challenge-desc">Paddle and navigate crystal-clear waters carved between monumental cliff landscapes.</p>
-                </div>
-                <button class="btn btn-apple-secondary w-100">View Challenge Details</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="wrap">
+        <div class="cgrid" id="cgrid"></div>
       </div>
     </section>
 
-    <!-- ABOUT US PAGE -->
+    <!-- =================================================
+         VISION
+         ================================================= -->
     <section class="page-section" id="about-us">
-      <div class="section-shell text-center" style="max-width: 780px;">
-        <div class="hero-badge">Our Mission</div>
-        <h1 class="headline-large">Fitness made adventurous.</h1>
-        <p class="subhead-large" style="margin-bottom: 40px;">
-          Veeran Vitality was built on the conviction that fitness shouldn’t feel like a chore. By merging virtual storytelling, global communities, and rewarding milestones, we turn everyday movement into lifelong expeditions.
+      <div class="page-hero">
+        <span class="eyebrow rise">Our Mission</span>
+        <h1 class="h1 rise" style="--d:.1s">Fitness made<br/><span class="grad-text">adventurous.</span></h1>
+      </div>
+      <div class="wrap">
+        <p class="vision-statement reveal">
+          Veeran Vitality was built on the conviction that <b>fitness shouldn’t feel like a chore.</b>
+          By merging virtual storytelling, global communities, and rewarding milestones,
+          <b>we turn everyday movement into lifelong expeditions.</b>
         </p>
-        <div class="bento-item text-start p-4 mb-4">
-          <div class="bento-title">Have thoughts or questions?</div>
-          <p class="bento-desc mb-3">Our crew is always here to listen and help you reach your goals[cite: 1].</p>
-          <a href="mailto:support@veeranvitality.com" class="text-success fw-semibold">support@veeranvitality.com</a>
+      </div>
+      <section class="section">
+        <div class="wrap">
+          <div class="values">
+            <article class="tile reveal">
+              <div class="tile__icon"><i class="fa-solid fa-book-open"></i></div>
+              <h3 class="tile__title">Virtual storytelling</h3>
+              <p class="tile__text">Every route is a story. Your daily kilometres become chapters in a journey across iconic landscapes.</p>
+            </article>
+            <article class="tile reveal" style="--d:.08s">
+              <div class="tile__icon"><i class="fa-solid fa-earth-asia"></i></div>
+              <h3 class="tile__title">Global communities</h3>
+              <p class="tile__text">Runners and walkers around the world, moving toward the same finish line together.</p>
+            </article>
+            <article class="tile reveal" style="--d:.16s">
+              <div class="tile__icon"><i class="fa-solid fa-medal"></i></div>
+              <h3 class="tile__title">Rewarding milestones</h3>
+              <p class="tile__text">Progress you can see and a certificate you can keep when you complete your expedition.</p>
+            </article>
+          </div>
+          <div class="reveal" style="text-align:center; margin-top: clamp(48px, 7vw, 80px);">
+            <a class="link" href="#transgender-welfare">Beyond the finish line: our commitment to transgender welfare</a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- =================================================
+         SUPPORT
+         ================================================= -->
+    <section class="page-section" id="support-page">
+      <div class="page-hero">
+        <span class="eyebrow rise">Support</span>
+        <h1 class="h1 rise" style="--d:.1s">Have thoughts<br/>or <span class="grad-text">questions?</span></h1>
+        <p class="lede rise" style="--d:.2s">Our crew is always here to listen and help you reach your goals.</p>
+      </div>
+      <div class="wrap">
+        <div class="help-grid">
+          <a class="tile help-card reveal" href="mailto:support@veeranvitality.com">
+            <div class="tile__icon"><i class="fa-solid fa-envelope"></i></div>
+            <h3 class="tile__title">Email the crew</h3>
+            <p class="tile__text">Questions about challenges, syncing or your account. We read every message.</p>
+            <span class="link">support@veeranvitality.com</span>
+          </a>
+          <a class="tile help-card reveal" style="--d:.08s" href="Veeran-Vitality-Privacy-notice.pdf">
+            <div class="tile__icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3 class="tile__title">Privacy Policy</h3>
+            <p class="tile__text">How we collect, use and protect your information.</p>
+            <span class="link">Read the privacy notice</span>
+          </a>
+          <a class="tile help-card reveal" style="--d:.16s" href="terms-of-service.pdf">
+            <div class="tile__icon"><i class="fa-solid fa-file-contract"></i></div>
+            <h3 class="tile__title">Terms of Service</h3>
+            <p class="tile__text">The terms that apply when you use Veeran Vitality.</p>
+            <span class="link">Read the terms</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- LOGIN PAGE -->
+    <!-- =================================================
+         SIGN IN
+         ================================================= -->
     <section class="page-section" id="login-page">
-      <div class="container">
-        <div class="auth-box">
-          <h2 class="auth-title">Welcome back.</h2>
-          <p class="auth-subhead">Log in to view challenge milestones.</p>
+      <div class="auth">
+        <div class="auth-card glass">
+          <img class="auth-card__logo" src="images/veeranvitality-logo.png" alt="Veeran Vitality — Make Workouts Fun!" width="190" height="61"/>
+          <h1 class="auth-title">Welcome back.</h1>
+          <p class="auth-sub">Log in to view challenge milestones.</p>
           <form onsubmit="event.preventDefault()">
-            <div class="mb-3">
-              <label class="form-label-apple" for="loginEmail">Email Address</label>
-              <input class="form-control apple-input" id="loginEmail" placeholder="name@apple.com" required="" type="email"/>
+            <div class="field">
+              <input id="loginEmail" type="email" placeholder=" " autocomplete="email" required/>
+              <label for="loginEmail">Email address</label>
             </div>
-            <div class="mb-3">
-              <label class="form-label-apple" for="loginPassword">Password</label>
-              <input class="form-control apple-input" id="loginPassword" placeholder="••••••••" required="" type="password"/>
+            <div class="field">
+              <input id="loginPassword" type="password" placeholder=" " autocomplete="current-password" required/>
+              <label for="loginPassword">Password</label>
             </div>
-            <div class="mb-4 form-check d-flex align-items-center gap-2">
-              <input class="form-check-input bg-dark border-secondary m-0" id="rememberMe" type="checkbox"/>
-              <label class="form-check-label text-light small" for="rememberMe">Remember this browser</label>
-            </div>
-            <button class="btn btn-apple-primary w-100 py-3" type="submit">Sign In</button>
+            <label class="check"><input id="rememberMe" type="checkbox"/> Remember this browser</label>
+            <button class="btn btn--primary btn--block" type="submit">Sign in</button>
           </form>
-          <div class="auth-footer-text">
-            Don't have an account? <a href="#" class="auth-link" onclick="showPage('signup-page')">Sign Up</a>
-          </div>
+          <p class="auth-alt">Don’t have an account? <a href="#signup-page">Sign up</a></p>
         </div>
       </div>
     </section>
 
-    <!-- SIGN UP / GET STARTED PAGE -->
+    <!-- =================================================
+         SIGN UP
+         ================================================= -->
     <section class="page-section" id="signup-page">
-      <div class="container">
-        <div class="auth-box">
-          <h2 class="auth-title">Join the expedition.</h2>
-          <p class="auth-subhead">Start logging workouts and earning medals today.</p>
+      <div class="auth">
+        <div class="auth-card glass">
+          <img class="auth-card__logo" src="images/veeranvitality-logo.png" alt="Veeran Vitality — Make Workouts Fun!" width="190" height="61"/>
+          <h1 class="auth-title">Join the expedition.</h1>
+          <p class="auth-sub">Start logging workouts and earning medals today.</p>
           <form onsubmit="event.preventDefault()">
-            <div class="mb-3">
-              <label class="form-label-apple" for="signupName">Full Name</label>
-              <input class="form-control apple-input" id="signupName" placeholder="Alex Rivers" required="" type="text"/>
+            <div class="field">
+              <input id="signupName" type="text" placeholder=" " autocomplete="name" required/>
+              <label for="signupName">Full name</label>
             </div>
-            <div class="mb-3">
-              <label class="form-label-apple" for="signupEmail">Email Address</label>
-              <input class="form-control apple-input" id="signupEmail" placeholder="name@apple.com" required="" type="email"/>
+            <div class="field">
+              <input id="signupEmail" type="email" placeholder=" " autocomplete="email" required/>
+              <label for="signupEmail">Email address</label>
             </div>
-            <div class="mb-3">
-              <label class="form-label-apple" for="signupPassword">Password</label>
-              <input class="form-control apple-input" id="signupPassword" placeholder="Create a password" required="" type="password"/>
-              <div class="form-helper-text">Password must be at least 8 characters long[cite: 1].</div>
+            <div class="field">
+              <input id="signupPassword" type="password" placeholder=" " autocomplete="new-password" minlength="8" required aria-describedby="pwHelp"/>
+              <label for="signupPassword">Create a password</label>
+              <p class="field__help" id="pwHelp">Password must be at least 8 characters long.</p>
             </div>
-            <div class="mb-4">
-              <label class="form-label-apple" for="confirmPassword">Confirm Password</label>
-              <input class="form-control apple-input" id="confirmPassword" placeholder="Repeat your password" required="" type="password"/>
+            <div class="field" style="margin-bottom: 26px;">
+              <input id="confirmPassword" type="password" placeholder=" " autocomplete="new-password" required/>
+              <label for="confirmPassword">Confirm password</label>
             </div>
-            <button class="btn btn-apple-primary w-100 py-3" type="submit">Create Account</button>
+            <button class="btn btn--primary btn--block" type="submit">Create account</button>
           </form>
-          <div class="auth-footer-text">
-            Already have an account? <a href="#" class="auth-link" onclick="showPage('login-page')">Sign In</a>
-          </div>
+          <p class="auth-alt">Already have an account? <a href="#login-page">Sign in</a></p>
         </div>
       </div>
     </section>
 
-    <!-- UNDER CONSTRUCTION -->
-    <section class="page-section text-center py-5" id="under-construction">
-      <div class="container py-5">
-        <div class="hero-badge"><i class="fa-solid fa-hammer"></i> Work In Progress</div>
-        <h2 class="section-headline">Coming Soon</h2>
-        <p class="subhead-large">We are currently perfecting this experience. Check back soon for exciting updates.</p>
-        <button class="btn btn-apple-secondary" onclick="showPage('home-page')">&larr; Return to Home</button>
+    <!-- =================================================
+         COMING SOON
+         ================================================= -->
+    <section class="page-section" id="under-construction">
+      <div class="soon">
+        <div>
+          <div class="soon__icon"><i class="fa-solid fa-hammer"></i></div>
+          <span class="eyebrow">Work in progress</span>
+          <h1 class="h2">Coming soon.</h1>
+          <p class="lede">We are currently perfecting this experience. Check back soon for exciting updates.</p>
+          <a class="btn btn--ghost" href="#home-page"><i class="fa-solid fa-arrow-left"></i> Return to home</a>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- Apple Minimalist Footer -->
-  <footer class="footer-apple">
-    <div class="container">
-      <div class="row g-4 mb-5">
-        <div class="col-6 col-md-3">
-          <div class="footer-title">Explore</div>
-          <ul class="footer-links">
-            <li><a href="#" onclick="showPage('home-page')">Overview</a></li>
-            <li><a href="#" onclick="showPage('events-page')">All Challenges</a></li>
-            <li><a href="#" onclick="showPage('about-us')">Our Vision</a></li>
+  <!-- ===================== Footer ===================== -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__top">
+        <a class="brand" href="#home-page" aria-label="Veeran Vitality home">
+          <img class="footer__logo" src="images/veeranvitality-logo.png" alt="Veeran Vitality — Make Workouts Fun!" width="200" height="64" loading="lazy"/>
+        </a>
+        <span class="footer__tag">Designed for movers everywhere.</span>
+      </div>
+      <div class="footer__cols">
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#home-page">Overview</a></li>
+            <li><a href="#events-page">All Challenges</a></li>
+            <li><a href="#about-us">Our Vision</a></li>
+            <li><a href="#transgender-welfare">Transgender Welfare</a></li>
           </ul>
         </div>
-        <div class="col-6 col-md-3">
-          <div class="footer-title">Account</div>
-          <ul class="footer-links">
-            <li><a href="#" onclick="showPage('login-page')">Sign In</a></li>
-            <li><a href="#" onclick="showPage('signup-page')">Register</a></li>
-            <li><a href="#" onclick="showPage('under-construction')">Sync Devices</a></li>
+        <div>
+          <h4>Account</h4>
+          <ul>
+            <li><a href="#login-page">Sign In</a></li>
+            <li><a href="#signup-page">Register</a></li>
           </ul>
         </div>
-        <div class="col-6 col-md-3">
-          <div class="footer-title">Legal</div>
-          <ul class="footer-links">
+        <div>
+          <h4>Legal</h4>
+          <ul>
             <li><a href="Veeran-Vitality-Privacy-notice.pdf">Privacy Policy</a></li>
             <li><a href="terms-of-service.pdf">Terms of Service</a></li>
-            <li><a href="#" onclick="showPage('under-construction')">Cookie Preferences</a></li>
           </ul>
         </div>
-        <div class="col-6 col-md-3">
-          <div class="footer-title">Connect</div>
-          <div class="d-flex gap-3 mb-3">
-            <a href="#"><i class="fa-brands fa-x-twitter fs-6"></i></a>
-            <a href="#"><i class="fa-brands fa-instagram fs-6"></i></a>
-            <a href="#"><i class="fa-brands fa-strava fs-6"></i></a>
-            <a href="#"><i class="fa-brands fa-youtube fs-6"></i></a>
+        <div>
+          <h4>Connect</h4>
+          <div class="footer__social">
+            <a href="https://x.com/veeranvitality" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/veeranvitality" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61596250220934" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
           </div>
-          <p class="text-muted m-0">Designed for movers everywhere.</p>
+          <ul><li><a href="mailto:support@veeranvitality.com">support@veeranvitality.com</a></li></ul>
         </div>
       </div>
-      <div class="border-top border-secondary pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-2" style="--bs-border-opacity: .2;">
-        <div>Copyright &copy; 2026 Veeran Vitality Inc. All rights reserved.</div>
-        <div class="text-muted">Crafted with precision &amp; performance.</div>
+      <div class="footer__bottom">
+        <span>Copyright © <span id="year">2026</span> Veeran Vitality Inc. All rights reserved.</span>
+        <span>Crafted with precision &amp; performance.</span>
       </div>
     </div>
   </footer>
 
   <script>
-    function toggleMenu() {
-      const menu = document.getElementById('navbarNav');
-      const button = document.querySelector('.navbar-toggler');
-      const open = menu.classList.toggle('show');
-      button.setAttribute('aria-expanded', open ? 'true' : 'false');
-    }
+    /* ---------------------------------------------------------
+       Challenge data — edit here to add or change routes.
+       --------------------------------------------------------- */
+    const CHALLENGES = [
+      { title: 'Everest Base Camp', region: 'Nepal', km: 170, img: 'photo-1464822759023-fed622ff2c3b',
+        desc: 'Climb through high altitude trails to the roof of the world across 170 km of pure endurance.' },
+      { title: 'Great Wall of China', region: 'China', km: 100, img: 'photo-1508804185872-d7badad00f7d',
+        desc: 'Traverse historic stone paths and mountain ridges through an ancient civilization marvel.' },
+      { title: 'Mamallapuram Coastal', region: 'India', km: 60, img: 'photo-1582510003544-4d00b7f74220',
+        desc: 'Cycle or run scenic coastal highways beside the Bay of Bengal into historic stone temples.',
+        href: 'veeranvitality-mamallapuram-route.html' },
+      { title: 'Amazon Rainforest', region: 'South America', km: 50, img: 'photo-1516026672322-bc52d61a55d5',
+        desc: 'Immerse yourself along untamed river paths through lush biodiversity and wild rainforests.' },
+      { title: 'Sahara Desert Crossing', region: 'North Africa', km: 200, img: 'photo-1509316975850-ff9c5deb0cd9',
+        desc: 'Brave rolling dunes and endless golden horizons on an extreme desert trek.' },
+      { title: 'Fjords of Norway', region: 'Norway', km: 150, img: 'photo-1486870591958-9b9d0d1dda99',
+        desc: 'Paddle and navigate crystal-clear waters carved between monumental cliff landscapes.' }
+    ];
+    const unsplash = (id, w) => `https://images.unsplash.com/${id}?q=80&w=${w}&auto=format&fit=crop`;
+    const MAX_KM = Math.max(...CHALLENGES.map(c => c.km));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function showPage(pageId) {
-      // Hide all pages
-      document.querySelectorAll('.page-section').forEach(section => {
-        section.classList.remove('active');
-      });
+    /* ---------- Render: rail, challenge grid ---------- */
+    (function render() {
+      document.getElementById('rail').innerHTML = CHALLENGES.map(c => `
+        <a class="route-card" href="${c.href || '#events-page'}">
+          <img src="${unsplash(c.img, 720)}" alt="" loading="lazy"/>
+          <span class="route-card__km glass">${c.km} km</span>
+          <span class="route-card__go glass" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>
+          <span class="route-card__body">
+            <span class="route-card__region">${c.region}</span>
+            <span class="route-card__title" style="display:block">${c.title}</span>
+          </span>
+        </a>`).join('');
 
-      // Show requested page
-      const activePage = document.getElementById(pageId) || document.getElementById('under-construction');
-      activePage.classList.add('active');
+      document.getElementById('cgrid').innerHTML = CHALLENGES.map((c, i) => `
+        <article class="ccard" data-km="${c.km}" style="--i:${i}">
+          <div class="ccard__media">
+            <img src="${unsplash(c.img, 800)}" alt="${c.title}" loading="lazy"/>
+            <span class="ccard__km glass">${c.km} km</span>
+          </div>
+          <div class="ccard__body">
+            <span class="ccard__region">${c.region}</span>
+            <h3 class="ccard__title">${c.title}</h3>
+            <p class="ccard__text">${c.desc}</p>
+            <div class="dist" aria-hidden="true">
+              <div class="dist__bar"><i style="--w:${Math.round(c.km / MAX_KM * 100)}%"></i></div>
+              <div class="dist__lbl"><span>Start</span><span>${c.km} km</span></div>
+            </div>
+            ${c.href
+              ? `<a class="btn btn--ghost btn--md" href="${c.href}">View route</a>`
+              : `<a class="btn btn--ghost btn--md" href="#signup-page">Join challenge</a>`}
+          </div>
+        </article>`).join('') + '<p class="empty" hidden>No challenges match this filter yet.</p>';
 
-      // Update Nav highlighting
-      document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-        link.classList.remove('active');
-        link.removeAttribute('aria-current');
-        if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(pageId)) {
-          link.classList.add('active');
-          link.setAttribute('aria-current', 'page');
-        }
-      });
+      const totalKm = CHALLENGES.reduce((s, c) => s + c.km, 0);
+      const r = document.querySelector('[data-stat="routes"]');
+      const k = document.querySelector('[data-stat="km"]');
+      r.dataset.count = r.textContent = CHALLENGES.length;
+      k.dataset.count = k.textContent = totalKm;
+    })();
 
-      // Close mobile menu if open
-      const nav = document.getElementById('navbarNav');
-      if (nav && nav.classList.contains('show')) {
-        toggleMenu();
+    /* ---------- Router ---------- */
+    const pages = [...document.querySelectorAll('.page-section')];
+    const TITLES = {
+      'home-page': 'Veeran Vitality — Move. Explore. Achieve.',
+      'events-page': 'Challenges — Veeran Vitality',
+      'about-us': 'Vision — Veeran Vitality',
+      'support-page': 'Support — Veeran Vitality',
+      'login-page': 'Sign in — Veeran Vitality',
+      'signup-page': 'Get started — Veeran Vitality',
+      'under-construction': 'Coming soon — Veeran Vitality'
+    };
+
+    function showPage(id, opts = {}) {
+      let target = id ? document.getElementById(id) : null;
+      let anchor = null;
+      if (!target) {
+        target = document.getElementById(id ? 'under-construction' : 'home-page');
+      } else if (!target.classList.contains('page-section')) {
+        anchor = target;
+        target = target.closest('.page-section') || document.getElementById('home-page');
       }
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      pages.forEach(p => p.classList.toggle('active', p === target));
+      document.querySelectorAll('[data-nav]').forEach(a => {
+        const on = a.dataset.nav === target.id;
+        a.classList.toggle('is-active', on);
+        on ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current');
+      });
+      document.title = TITLES[target.id] || TITLES['home-page'];
+      setMenu(false);
+
+      if (opts.push) {
+        const url = (target.id === 'home-page' && !anchor) ? location.pathname + location.search : '#' + (anchor ? anchor.id : target.id);
+        history.pushState(null, '', url);
+      }
+      if (anchor) {
+        requestAnimationFrame(() => anchor.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }));
+      } else {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      }
+      requestAnimationFrame(onScroll);
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      showPage('home-page');
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const id = a.getAttribute('href').slice(1);
+      if (!id) { e.preventDefault(); return; }
+      const el = document.getElementById(id);
+      if (!el || !(el.classList.contains('page-section') || el.closest('.page-section'))) return;
+      e.preventDefault();
+      showPage(id, { push: true });
     });
+    window.addEventListener('popstate', () => showPage(location.hash.slice(1)));
+
+    /* ---------- Mobile menu ---------- */
+    const gnav = document.getElementById('gnav');
+    const burger = document.getElementById('burger');
+    const mnav = document.getElementById('mnav');
+    function setMenu(open) {
+      mnav.classList.toggle('is-open', open);
+      gnav.classList.toggle('is-open', open);
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('no-scroll', open);
+      mnav.inert = !open;
+    }
+    burger.addEventListener('click', () => setMenu(!mnav.classList.contains('is-open')));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+    window.matchMedia('(min-width: 834px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+    /* ---------- Scroll effects ---------- */
+    const showcase = document.getElementById('showcase');
+    const frame = showcase.querySelector('.showcase__frame');
+    let ticking = false;
+    function onScroll() {
+      ticking = false;
+      gnav.classList.toggle('is-scrolled', window.scrollY > 8);
+      if (reduceMotion || !showcase.offsetParent) return;
+      const rect = showcase.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.75)));
+      frame.style.setProperty('--p', p.toFixed(3));
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+    }, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    /* ---------- Reveal on scroll + counters ---------- */
+    function countUp(el) {
+      const end = Number(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      if (reduceMotion || !end) { el.textContent = end + suffix; return; }
+      const dur = 1600;
+      const t0 = performance.now();
+      const step = now => {
+        const t = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(2, -10 * t);
+        el.textContent = Math.round(end * (t === 1 ? 1 : eased)) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        el.classList.add('is-in');
+        el.querySelectorAll('[data-count]').forEach(countUp);
+        if (el === showcase) {
+          const motion = document.getElementById('routeMotion');
+          if (motion && motion.beginElement) motion.beginElement();
+        }
+        io.unobserve(el);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal, .chart').forEach(el => io.observe(el));
+    io.observe(showcase);
+
+    /* ---------- Bento spotlight ---------- */
+    document.querySelectorAll('.tile').forEach(tile => {
+      tile.addEventListener('pointermove', e => {
+        const r = tile.getBoundingClientRect();
+        tile.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        tile.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    /* ---------- Route rail ---------- */
+    const rail = document.getElementById('rail');
+    const prev = document.getElementById('railPrev');
+    const next = document.getElementById('railNext');
+    function railStep(dir) {
+      const card = rail.querySelector('.route-card');
+      const step = card ? card.getBoundingClientRect().width + 20 : 320;
+      rail.scrollBy({ left: dir * step, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+    function railState() {
+      prev.disabled = rail.scrollLeft <= 2;
+      next.disabled = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 2;
+    }
+    prev.addEventListener('click', () => railStep(-1));
+    next.addEventListener('click', () => railStep(1));
+    rail.addEventListener('scroll', railState, { passive: true });
+    window.addEventListener('resize', railState);
+
+    /* ---------- Challenge filter ---------- */
+    const filterBtns = document.querySelectorAll('[data-filter]');
+    filterBtns.forEach(btn => btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      let shown = 0;
+      document.querySelectorAll('.ccard').forEach(card => {
+        const km = Number(card.dataset.km);
+        const show = f === 'all' || (f === 'short' ? km < 100 : km >= 100);
+        card.hidden = !show;
+        if (show) {
+          card.style.setProperty('--i', shown++);
+          card.style.animation = 'none';
+          void card.offsetWidth;
+          card.style.animation = '';
+        }
+      });
+      document.querySelector('.cgrid .empty').hidden = shown > 0;
+    }));
+
+    /* ---------- Sign-up password match ---------- */
+    const pw = document.getElementById('signupPassword');
+    const pw2 = document.getElementById('confirmPassword');
+    const checkMatch = () => pw2.setCustomValidity(pw2.value && pw2.value !== pw.value ? 'Passwords do not match.' : '');
+    pw.addEventListener('input', checkMatch);
+    pw2.addEventListener('input', checkMatch);
+
+    /* ---------- Init ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    showPage(location.hash.slice(1));
+    railState();
   </script>
 </body>
 </html>
